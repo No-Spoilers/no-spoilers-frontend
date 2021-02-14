@@ -1,0 +1,17 @@
+.series-list {
+  margin: 1rem;
+}
+
+.book-list {
+  margin: 3rem;
+}
+
+.entry-list {
+  margin: 4rem;
+}
+
+.bullet {
+  display: list-item;
+  margin-left: 1.3em;
+  list-style-type:disc;
+}
