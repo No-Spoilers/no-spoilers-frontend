@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
+import cookies from '../../lib/cookies';
 
 export default class LoginPage extends Component {
   state = {
@@ -26,7 +27,7 @@ export default class LoginPage extends Component {
     if (this.validateForm()) {
       this.setState({fieldsDisabled: true});
     }
-    
+
     try {
       const credentials = {
         "email": this.state.email,
@@ -39,10 +40,12 @@ export default class LoginPage extends Component {
         headers: {"Content-type": "application/json;charset=UTF-8"}
       })
       .then(response => response.json()) 
-  
+
+      cookies.set(result);
+
       this.props.setUser(result)
     } catch (err) {
-      console.log('err:', err);
+      console.error('err:', err);
     }
   }
 
