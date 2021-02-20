@@ -1,0 +1,9 @@
+.nav-option {
+  padding: 0.5rem;
+  margin: 1rem;
+  font-size: 2rem;
+  
+  color: black;
+  background-color: cadetblue;
+  border-radius: 5px;
+}

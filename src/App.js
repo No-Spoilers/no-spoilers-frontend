@@ -1,14 +1,36 @@
-import './App.css';
-import SeriesList from './SeriesList/SeriesList';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>No Spoilers</h1>
-      <p>This is the starting stub for https://no-spoilers.net</p>
-      <SeriesList />
-    </div>
-  );
+import './App.css';
+import ContentFrame from './components/ContentFrame/ContentFrame';
+import NavigationFrame from './components/NavigationFrame/NavigationFrame';
+
+export default class App extends Component {
+  state = {
+    user: null,
+    activeContent: null
+  }
+
+  navHandler = (selection) => {
+    this.setState({
+      activeContent: selection
+    })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <NavigationFrame
+          className="navigation-frame"
+          user={this.state.user}
+          navHandler={this.navHandler} 
+        />
+        <ContentFrame
+          className="content-frame"
+          content={this.state.activeContent}
+          setUser={user => this.setState({user})}
+        />
+      </div>
+    );
+  }
 }
 
-export default App;

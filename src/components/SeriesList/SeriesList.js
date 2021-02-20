@@ -94,7 +94,6 @@ class SeriesList extends Component {
 
     return (
       <div className="App">
-        <div>Work in progress</div>
         
         <div>
           {loading}
