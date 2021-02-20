@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import './App.css';
 import ContentFrame from './components/ContentFrame/ContentFrame';
 import NavigationFrame from './components/NavigationFrame/NavigationFrame';
-import cookies from './lib/cookies';
 
 export default class App extends Component {
   state = {
@@ -12,13 +11,7 @@ export default class App extends Component {
   }
 
   componentDidMount()  {
-    const savedData = cookies.get();
-    if (savedData){
-      this.setState({
-        user: cookies.get(),
-        activeContent: 'browse'
-      });
-    }
+    this.setState({user:localStorage});
   }
 
   navHandler = (selection) => {

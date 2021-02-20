@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
-import cookies from '../../lib/cookies';
 
 export default class LoginPage extends Component {
   state = {
@@ -41,7 +40,7 @@ export default class LoginPage extends Component {
       })
       .then(response => response.json()) 
 
-      cookies.set(result);
+      Object.keys(result).forEach(key => localStorage.setItem(key, result[key]));
 
       this.props.setUser(result)
     } catch (err) {
