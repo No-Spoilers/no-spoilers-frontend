@@ -1,5 +1,7 @@
 .content-frame {
   flex: 2;
   
+  justify-content: center;
+  width: 100%;
   display: flex;
 }

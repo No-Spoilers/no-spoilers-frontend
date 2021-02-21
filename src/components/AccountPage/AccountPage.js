@@ -3,7 +3,7 @@ import './AccountPage.css';
 
 const AccountPage = (props) => {
   return (
-    <div>
+    <div className="account-container">
       <div className="account-frame">
         <div className="info-item">Name: {props.user.name}</div>
         <div className="info-item">Email: {props.user.email}</div>

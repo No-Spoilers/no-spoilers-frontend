@@ -1,10 +1,4 @@
-.outer-container {
-  justify-content: center;
-  width: 100%;
-  display: flex;
-}
-
-.inner-container {
+.login-container {
   width: 75%;
   margin: auto;
   border: 1px solid black;
@@ -15,7 +9,7 @@
   background-color: wheat;
 }
 
-input[type=email], input[type=password] {
+input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -68,7 +62,9 @@ span.psw {
   display: flex;
 }
 
-.tab {
+.login-login-tab {
+  color: #444;
+  background-color: wheat;
   margin: 0;
   padding: 0;
   font: small-caps bold 2rem sans-serif;
@@ -76,12 +72,13 @@ span.psw {
   flex: 1;
 }
 
-.login {
-  color: #444;
-  background-color: wheat;
-}
-
-.signup {
+.login-signup-tab {
   background-color: grey;
   color: #444;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  font: small-caps bold 2rem sans-serif;
+  text-align: center;
+  flex: 1;
 }

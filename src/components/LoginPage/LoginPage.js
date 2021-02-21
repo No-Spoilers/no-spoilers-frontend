@@ -71,16 +71,17 @@ export default class LoginPage extends Component {
       password: '',
       emailFieldClass: '',
       passwordFieldClass: ''
-    })
+    });
+    
+    this.props.navHandler('browse');
   }
 
   render() {
     return (
-      <div className="outer-container">
-        <div className="inner-container">
+        <div className="login-container">
           <div className="tab-container">
-            <div className="login tab">Login</div>
-            <div className="signup tab">Signup</div>
+            <div className="login-login-tab">Login</div>
+            <div className="login-signup-tab" onClick={() => this.props.navHandler('signup')}>Signup</div>
           </div>
           <form className="form-box" onSubmit={this.loginButtonHandler}>
             <label htmlFor="email"><b>Email</b></label>
@@ -118,6 +119,7 @@ export default class LoginPage extends Component {
             >Login</button>
             
             <button 
+              type="reset"
               onClick={this.cancelButtonHandler} 
               className="cancel-button"
             >Cancel</button>
@@ -128,7 +130,6 @@ export default class LoginPage extends Component {
   
         </div>
   
-      </div>
     )
   }
 }
