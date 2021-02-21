@@ -11,12 +11,20 @@ export default class App extends Component {
   }
 
   componentDidMount()  {
-    this.setState({user:localStorage});
+    this.setState({user:{...localStorage}});
   }
 
   navHandler = (selection) => {
     this.setState({
       activeContent: selection
+    })
+  }
+
+  logout = () => {
+    localStorage.clear();
+    this.setState({
+      user: null,
+      activeContent: 'login'
     })
   }
 
@@ -32,6 +40,8 @@ export default class App extends Component {
           className="content-frame"
           content={this.state.activeContent}
           setUser={user => this.setState({user})}
+          logout={this.logout}
+          user={this.state.user}
         />
       </div>
     );

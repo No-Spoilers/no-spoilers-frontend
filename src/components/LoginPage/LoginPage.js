@@ -25,7 +25,6 @@ export default class LoginPage extends Component {
   loginButtonHandler = async () => {
     if (this.validateForm()) {
       this.setState({fieldsDisabled: true});
-    }
 
     try {
       const credentials = {
@@ -45,7 +44,11 @@ export default class LoginPage extends Component {
       this.props.setUser(result)
     } catch (err) {
       console.error('err:', err);
+        this.setState({
+          fieldsDisabled: false
+        })
     }
+  }
   }
 
   cancelButtonHandler = () => {

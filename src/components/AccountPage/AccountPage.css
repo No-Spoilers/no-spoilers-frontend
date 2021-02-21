@@ -1,0 +1,28 @@
+.account-frame {
+  padding: 0.1rem 0.5rem;
+  margin: 5rem;
+  margin-bottom: 1rem;
+  font: bold 1rem Verdana ;
+  text-align: left;
+  
+  color: black;
+  background-color: rgb(100, 100, 100);
+  border-radius: 1px;
+}
+
+.info-item {
+  margin: 1rem;
+  word-wrap: break-word;
+}
+
+.logout-button {
+  padding: 0.5rem;
+  margin: 0 5rem;
+  font: bold 1rem Verdana ;
+  text-align: center;
+  
+  color: black;
+  background-color: rgb(64, 201, 255);
+  border-radius: 1px;
+  cursor: pointer;
+}
