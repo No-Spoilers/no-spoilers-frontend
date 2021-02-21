@@ -7,7 +7,8 @@ export default class LoginPage extends Component {
     password: '',
     fieldsDisabled: false,
     emailFieldClass: '',
-    passwordFieldClass: ''
+    passwordFieldClass: '',
+    loginFail: null
   }
   
   validateForm = () => {
@@ -22,7 +23,9 @@ export default class LoginPage extends Component {
     this.setState({passwordFieldClass:'buttonValidate'})
   }
   
-  loginButtonHandler = async () => {
+  loginButtonHandler = async (e) => {
+    e.preventDefault();
+
     if (this.validateForm()) {
       this.setState({fieldsDisabled: true});
       
@@ -37,11 +40,21 @@ export default class LoginPage extends Component {
           body: JSON.stringify(credentials),
           headers: {"Content-type": "application/json;charset=UTF-8"}
         })
-        .then(response => response.json()) 
   
-        Object.keys(result).forEach(key => localStorage.setItem(key, result[key]));
+        const responseBody = await result.json();
+
+        if (result.status !== 200) {
+          this.setState({
+            loginFail: responseBody.error,
+            fieldsDisabled: false
+          })
+        } else {
+          // Store user data in localStorage
+          Object.keys(responseBody).forEach(key => localStorage.setItem(key, responseBody[key]));
   
-        this.props.setUser(result)
+          this.props.setUser(responseBody);
+          this.props.navHandler('account');
+        }
       } catch (err) {
         console.error('err:', err);
         this.setState({
@@ -62,7 +75,6 @@ export default class LoginPage extends Component {
   }
 
   render() {
-
     return (
       <div className="outer-container">
         <div className="inner-container">
@@ -93,9 +105,9 @@ export default class LoginPage extends Component {
               disabled={this.state.fieldsDisabled}
               required 
             />
-          </form>
   
           <button 
+              type="submit"
             onClick={this.loginButtonHandler} 
             className="login-button"
             disabled={!this.validateForm()}
@@ -105,6 +117,10 @@ export default class LoginPage extends Component {
             onClick={this.cancelButtonHandler} 
             className="cancel-button"
           >Cancel</button>
+  
+            {this.state.loginFail ? <div className="login-fail">Error: {this.state.loginFail}</div> : null}
+          </form>
+  
   
         </div>
   

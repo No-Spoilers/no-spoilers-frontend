@@ -40,6 +40,7 @@ export default class App extends Component {
           setUser={user => this.setState({user})}
           logout={this.logout}
           user={this.state.user}
+          navHandler={this.navHandler} 
         />
       </div>
     );

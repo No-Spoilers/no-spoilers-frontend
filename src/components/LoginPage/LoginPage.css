@@ -55,3 +55,8 @@ span.psw {
   padding-top: 16px;
 }
 
+.login-fail {
+  color: red;
+  text-align: center;
+  padding: 1rem;
+}
