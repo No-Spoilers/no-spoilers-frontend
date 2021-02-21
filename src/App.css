@@ -1,19 +1,6 @@
-html {
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  color: bisque;
-  
-}
-
 .App {
+  width: 100%;
+
   display: flex;
 }
 
-.navigation-frame {
-  flex: 25%
-}
-
-.content-frame {
-  flex: auto;
-}

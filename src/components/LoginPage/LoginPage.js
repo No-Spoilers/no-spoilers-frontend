@@ -25,30 +25,30 @@ export default class LoginPage extends Component {
   loginButtonHandler = async () => {
     if (this.validateForm()) {
       this.setState({fieldsDisabled: true});
-
-    try {
-      const credentials = {
-        "email": this.state.email,
-        "password": this.state.password
-      }
+      
+      try {
+        const credentials = {
+          "email": this.state.email,
+          "password": this.state.password
+        }
+    
+        const result = await fetch('https://api.no-spoilers.net/login', {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: {"Content-type": "application/json;charset=UTF-8"}
+        })
+        .then(response => response.json()) 
   
-      const result = await fetch('https://api.no-spoilers.net/login', {
-        method: "POST",
-        body: JSON.stringify(credentials),
-        headers: {"Content-type": "application/json;charset=UTF-8"}
-      })
-      .then(response => response.json()) 
-
-      Object.keys(result).forEach(key => localStorage.setItem(key, result[key]));
-
-      this.props.setUser(result)
-    } catch (err) {
-      console.error('err:', err);
+        Object.keys(result).forEach(key => localStorage.setItem(key, result[key]));
+  
+        this.props.setUser(result)
+      } catch (err) {
+        console.error('err:', err);
         this.setState({
           fieldsDisabled: false
         })
+      }
     }
-  }
   }
 
   cancelButtonHandler = () => {
@@ -64,34 +64,36 @@ export default class LoginPage extends Component {
   render() {
 
     return (
-      <div>
-        <div className="container">
-          <label htmlFor="email"><b>Email</b></label>
-          <input 
-            name="email" 
-            type="email" 
-            placeholder="Enter Email" 
-            className={this.state.emailFieldClass}
-            onBlur={this.validateEmail}
-            value={this.state.email}
-            onChange={(e) => this.setState({email:e.target.value})}
-            disabled={this.state.fieldsDisabled}
-            required 
-            autoFocus 
-          />
-  
-          <label htmlFor="psw"><b>Password</b></label>
-          <input 
-            name="psw" 
-            type="password" 
-            placeholder="Enter Password" 
-            className={this.state.passwordFieldClass}
-            onBlur={this.validatePassword}
-            value={this.state.password}
-            onChange={(e) => this.setState({password:e.target.value})}
-            disabled={this.state.fieldsDisabled}
-            required 
-          />
+      <div className="outer-container">
+        <div className="inner-container">
+          <form onSubmit={this.loginButtonHandler}>
+            <label htmlFor="email"><b>Email</b></label>
+            <input 
+              name="email" 
+              type="email" 
+              placeholder="Enter Email" 
+              className={this.state.emailFieldClass}
+              onBlur={this.validateEmail}
+              value={this.state.email}
+              onChange={(e) => this.setState({email:e.target.value})}
+              disabled={this.state.fieldsDisabled}
+              required 
+              autoFocus 
+            />
+    
+            <label htmlFor="psw"><b>Password</b></label>
+            <input 
+              name="psw" 
+              type="password" 
+              placeholder="Enter Password" 
+              className={this.state.passwordFieldClass}
+              onBlur={this.validatePassword}
+              value={this.state.password}
+              onChange={(e) => this.setState({password:e.target.value})}
+              disabled={this.state.fieldsDisabled}
+              required 
+            />
+          </form>
   
           <button 
             onClick={this.loginButtonHandler} 

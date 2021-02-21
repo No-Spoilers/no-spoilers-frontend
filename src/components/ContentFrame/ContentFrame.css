@@ -1,5 +1,5 @@
-.content-frame-inner {
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.content-frame {
+  flex: 2;
+  
+  display: flex;
 }

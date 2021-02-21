@@ -32,12 +32,10 @@ export default class App extends Component {
     return (
       <div className="App">
         <NavigationFrame
-          className="navigation-frame"
           user={this.state.user}
           navHandler={this.navHandler} 
         />
         <ContentFrame
-          className="content-frame"
           content={this.state.activeContent}
           setUser={user => this.setState({user})}
           logout={this.logout}

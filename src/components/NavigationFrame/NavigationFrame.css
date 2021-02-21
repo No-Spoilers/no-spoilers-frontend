@@ -1,9 +1,43 @@
+.navigation-frame {
+  flex-direction: column;
+  justify-content: center;
+  
+  flex: 1;
+  display: flex;
+}
+
+.title-box {
+  padding: 0.75rem;
+  margin: 1rem;
+  font-size: 1rem;
+  text-align: left;
+  
+  color: black;
+  background-color: purple;
+  border-radius: 5px;
+}
+
 .nav-option {
   padding: 0.5rem;
   margin: 1rem;
   font-size: 2rem;
+  text-align: center;
+  cursor: pointer;
   
   color: black;
   background-color: cadetblue;
   border-radius: 5px;
 }
+
+.account-info {
+  padding: 0.1rem 0.5rem;
+  margin: 1rem;
+  font: bold 1rem Verdana ;
+  text-align: center;
+  
+  color: black;
+  background-color: green;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
