@@ -40,7 +40,7 @@ export default class LoginPage extends Component {
           body: JSON.stringify(credentials),
           headers: {"Content-type": "application/json;charset=UTF-8"}
         })
-  
+
         const responseBody = await result.json();
 
         if (result.status !== 200) {
@@ -51,7 +51,7 @@ export default class LoginPage extends Component {
         } else {
           // Store user data in localStorage
           Object.keys(responseBody).forEach(key => localStorage.setItem(key, responseBody[key]));
-  
+    
           this.props.setUser(responseBody);
           this.props.navHandler('account');
         }
@@ -78,7 +78,11 @@ export default class LoginPage extends Component {
     return (
       <div className="outer-container">
         <div className="inner-container">
-          <form onSubmit={this.loginButtonHandler}>
+          <div className="tab-container">
+            <div className="login tab">Login</div>
+            <div className="signup tab">Signup</div>
+          </div>
+          <form className="form-box" onSubmit={this.loginButtonHandler}>
             <label htmlFor="email"><b>Email</b></label>
             <input 
               name="email" 
@@ -105,19 +109,19 @@ export default class LoginPage extends Component {
               disabled={this.state.fieldsDisabled}
               required 
             />
-  
-          <button 
+
+            <button 
               type="submit"
-            onClick={this.loginButtonHandler} 
-            className="login-button"
-            disabled={!this.validateForm()}
-          >Login</button>
-          
-          <button 
-            onClick={this.cancelButtonHandler} 
-            className="cancel-button"
-          >Cancel</button>
-  
+              onClick={this.loginButtonHandler} 
+              className="login-button"
+              disabled={!this.validateForm()}
+            >Login</button>
+            
+            <button 
+              onClick={this.cancelButtonHandler} 
+              className="cancel-button"
+            >Cancel</button>
+
             {this.state.loginFail ? <div className="login-fail">Error: {this.state.loginFail}</div> : null}
           </form>
   

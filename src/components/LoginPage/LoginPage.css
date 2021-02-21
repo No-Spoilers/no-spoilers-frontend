@@ -5,10 +5,13 @@
 }
 
 .inner-container {
-  padding: 1rem;
   width: 75%;
   margin: auto;
   border: 1px solid black;
+}
+
+.form-box {
+  padding: 1rem;
   background-color: wheat;
 }
 
@@ -59,4 +62,26 @@ span.psw {
   color: red;
   text-align: center;
   padding: 1rem;
+}
+
+.tab-container {
+  display: flex;
+}
+
+.tab {
+  margin: 0;
+  padding: 0;
+  font: small-caps bold 2rem sans-serif;
+  text-align: center;
+  flex: 1;
+}
+
+.login {
+  color: #444;
+  background-color: wheat;
+}
+
+.signup {
+  background-color: grey;
+  color: #444;
 }
