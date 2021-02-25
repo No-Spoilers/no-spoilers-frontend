@@ -3,6 +3,7 @@ import AccountPage from '../AccountPage/AccountPage';
 import LoginPage from '../LoginPage/LoginPage';
 import SeriesList from '../SeriesList/SeriesList';
 import SignupPage from '../SignupPage/SignupPage';
+import AddSeries from '../AddSeries/AddSeries';
 import './ContentFrame.css';
 
 const ContentFrame = (props) => {
@@ -12,6 +13,7 @@ const ContentFrame = (props) => {
         props.content === 'login' ? <LoginPage setUser={props.setUser} navHandler={props.navHandler} /> : 
         props.content === 'signup' ? <SignupPage setUser={props.setUser} navHandler={props.navHandler} /> : 
         props.content === 'account' ? <AccountPage user={props.user} logout={props.logout} /> : 
+        props.content === 'create-series' ? <AddSeries user={props.user} logout={props.logout} navHandler={props.navHandler} /> : 
         props.content === 'search' ? <h1>Search Frame Here</h1> : 
         <h1>No content</h1>
       }

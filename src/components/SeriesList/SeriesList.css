@@ -1,5 +1,38 @@
+.series-container {
+  width: 75%;
+  margin: auto;
+  border: 1px solid black;
+  padding: 1rem;
+  background-color: wheat;
+}
+
+.series-name {
+  background-color: tomato;
+  font-weight: bold;
+}
+
 .series-list {
   margin: 1rem;
+}
+
+.series-list-header-container {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.series-list-header-title {
+  flex: 1;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.series-add-button {
+  background-color: thistle;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 7px;
 }
 
 .book-list {

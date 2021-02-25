@@ -56,9 +56,12 @@ class SeriesList extends Component {
     if (this.state.series.length > 0) {
       seriesList = (
         <div className="series-list">
-          <h2>Series List</h2>
+          <div className="series-list-header-container">
+            <div className="series-list-header-title">Series List</div>
+            <div className="series-add-button" onClick={() => this.props.navHandler('create-series')}>Add New<br/>Series</div>
+          </div>
           {this.state.series.map(item => (
-            <div key={item.seriesId} className="bullet">
+            <div key={item.seriesId} className="series-name">
               <div onClick={() => this.handleSeriesClick(item.seriesId)}>{item.name}</div>
             </div>
           ))}
@@ -93,7 +96,7 @@ class SeriesList extends Component {
     }
 
     return (
-      <div className="App">
+      <div className="series-container">
         
         <div>
           {loading}
