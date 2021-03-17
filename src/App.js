@@ -8,19 +8,25 @@ import NavigationFrame from './components/NavigationFrame/NavigationFrame';
 export default class App extends Component {
   state = {
     user: null,
-    activePage: null,
-    viewItem: null
+    isFetching: false,
+    seriesList: []
   }
 
   componentDidMount()  {
     this.setState({user:{...localStorage}});
+    this.getSeriesList();
   }
+  
+  getSeriesList = async () => {
+    this.setState({isFetching: true});
 
-  navHandler = (selection, viewItem) => {
+    const response = await fetch('https://api.no-spoilers.net/series');
+    const body = await response.json();
+
     this.setState({
-      activePage: selection,
-      viewItem
-    })
+      isFetching: false,
+      seriesList: body
+    });
   }
 
   logout = () => {
@@ -40,12 +46,11 @@ export default class App extends Component {
             navHandler={this.navHandler} 
           />
           <ContentFrame
-            activePage={this.state.activePage}
-            viewItem={this.state.viewItem}
             setUser={user => this.setState({user})}
             logout={this.logout}
             user={this.state.user}
-            navHandler={this.navHandler} 
+            isFetching={this.isFetching} 
+            seriesList={this.state.seriesList}
           />
 
         </div>
@@ -53,4 +58,3 @@ export default class App extends Component {
     );
   }
 }
-
