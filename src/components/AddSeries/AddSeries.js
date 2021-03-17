@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import './AddSeries.css';
 
-export default class AddSeries extends Component {
-  state = {
+const AddSeries = (props) => {
+  const history = useHistory();
+
+  const [state,setState] = useState({
     name: '',
     description: '',
     fieldsDisabled: false,
@@ -10,33 +13,34 @@ export default class AddSeries extends Component {
     descriptionFieldClass: '',
     submitting: false,
     submitFail: null
-  }
+  });
   
-  validateForm = () => {
-    return this.state.name.length > 0;
+  const validateForm = () => {
+    return state.name.length > 0;
   }
 
-  validateName = () => {
-    this.setState({nameFieldClass:'buttonValidate'})
+  const validateName = () => {
+    setState({...state, nameFieldClass:'buttonValidate'})
   }
 
-  validateDescription = () => {
-    this.setState({descriptionFieldClass:'buttonValidate'})
+  const validateDescription = () => {
+    setState({...state, descriptionFieldClass:'buttonValidate'})
   }
   
-  submitButtonHandler = async (e) => {
+  const submitButtonHandler = async (e) => {
     e.preventDefault();
 
-    if (this.validateForm()) {
-      this.setState({
+    if (validateForm()) {
+      setState({
+        ...state, 
         fieldsDisabled: true,
         submitting: true
       });
       
       try {
         const data = {
-          "name": this.state.name,
-          "description": this.state.description
+          name: state.name,
+          description: state.description
         }
 
         const headers = {
@@ -54,22 +58,25 @@ export default class AddSeries extends Component {
 
         if (result.status !== 201) {
           console.error('error:', result);
-          this.setState({
+          setState({
+            ...state, 
             submitFail: responseBody.error,
             fieldsDisabled: false,
             submitting: false
           })
         } else {
           // Store data
-          this.setState({
+          setState({
+            ...state, 
             fieldsDisabled: false,
             submitting: false
           });
-          this.props.navHandler('browse');
+          history.push('/browse');
         }
       } catch (err) {
         console.error('err:', err);
-        this.setState({
+        setState({
+          ...state, 
           fieldsDisabled: false,
           submitting: false
         })
@@ -77,8 +84,9 @@ export default class AddSeries extends Component {
     }
   }
 
-  cancelButtonHandler = () => {
-    this.setState({
+  const cancelButtonHandler = () => {
+    setState({
+      ...state, 
       fieldsDisabled: false,
       name: '',
       description: '',
@@ -86,64 +94,64 @@ export default class AddSeries extends Component {
       descriptionFieldClass: ''
     });
     
-    this.props.navHandler('browse');
+    history.push('/browse');
   }
 
-  render() {
-    return (
-        <div className="login-container">
-          
-          <div className="login-login-tab">Add New Series</div>  
-          
-          <form className="form-box" onSubmit={this.submitButtonHandler}>
-            <label htmlFor="name"><b>Series Name</b></label>
-            <input 
-              name="name" 
-              type="text" 
-              placeholder="Enter Series Name" 
-              autoComplete="off"
-              className={this.state.nameFieldClass}
-              onBlur={this.validateName}
-              value={this.state.name}
-              onChange={(e) => this.setState({name:e.target.value})}
-              disabled={this.state.fieldsDisabled}
-              required 
-              autoFocus 
-            />
-    
-            <label htmlFor="description"><b>Brief Description</b></label>
-            <textarea  
-              name="description" 
-              type="text" 
-              placeholder="Enter Description" 
-              className={this.state.descriptionFieldClass}
-              onBlur={this.validateDescription}
-              value={this.state.description}
-              onChange={(e) => this.setState({description:e.target.value})}
-              disabled={this.state.fieldsDisabled}
-              required 
-            />
+  return (
+      <div className="login-container">
+        
+        <div className="login-login-tab">Add New Series</div>  
+        
+        <form className="form-box" onSubmit={submitButtonHandler}>
+          <label htmlFor="name"><b>Series Name</b></label>
+          <input 
+            name="name" 
+            type="text" 
+            placeholder="Enter Series Name" 
+            autoComplete="off"
+            className={state.nameFieldClass}
+            onBlur={validateName}
+            value={state.name}
+            onChange={(e) => setState({...state, name:e.target.value})}
+            disabled={state.fieldsDisabled}
+            required 
+            autoFocus 
+          />
+  
+          <label htmlFor="description"><b>Brief Description</b></label>
+          <textarea  
+            name="description" 
+            type="text" 
+            placeholder="Enter Description" 
+            className={state.descriptionFieldClass}
+            onBlur={validateDescription}
+            value={state.description}
+            onChange={(e) => setState({...state, description:e.target.value})}
+            disabled={state.fieldsDisabled}
+            required 
+          />
 
-            <button 
-              type="submit"
-              onClick={this.submitButtonHandler} 
-              className="login-button"
-              disabled={!this.validateForm()}
-            >Submit</button>
-            
-            <button 
-              type="reset"
-              onClick={this.cancelButtonHandler} 
-              className="cancel-button"
-            >Cancel</button>
+          <button 
+            type="submit"
+            onClick={submitButtonHandler} 
+            className="login-button"
+            disabled={!validateForm()}
+          >Submit</button>
+          
+          <button 
+            type="reset"
+            onClick={cancelButtonHandler} 
+            className="cancel-button"
+          >Cancel</button>
 
-            {this.state.submitting ? <div className="login-fail">SENDING DATA</div> : null}
-            {this.state.submitFail ? <div className="login-fail">Error: {this.state.submitFail}</div> : null}
-          </form>
-  
-  
-        </div>
-  
-    )
-  }
+          {state.submitting ? <div className="login-fail">SENDING DATA</div> : null}
+          {state.submitFail ? <div className="login-fail">Error: {state.submitFail}</div> : null}
+        </form>
+
+
+      </div>
+
+  )
 }
+
+export default AddSeries;
