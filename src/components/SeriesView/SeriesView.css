@@ -1,0 +1,7 @@
+.series-view-container {
+  width: 75%;
+  margin: auto;
+  border: 1px solid black;
+  padding: 1rem;
+  background-color: darkgoldenrod;
+}

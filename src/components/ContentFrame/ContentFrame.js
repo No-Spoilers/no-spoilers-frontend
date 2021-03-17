@@ -4,17 +4,19 @@ import LoginPage from '../LoginPage/LoginPage';
 import SeriesList from '../SeriesList/SeriesList';
 import SignupPage from '../SignupPage/SignupPage';
 import AddSeries from '../AddSeries/AddSeries';
+import SeriesView from '../SeriesView/SeriesView';
 import './ContentFrame.css';
 
 const ContentFrame = (props) => {
   return (
     <div className="content-frame">
-      { props.content === 'browse' ? <SeriesList /> :
-        props.content === 'login' ? <LoginPage setUser={props.setUser} navHandler={props.navHandler} /> : 
-        props.content === 'signup' ? <SignupPage setUser={props.setUser} navHandler={props.navHandler} /> : 
-        props.content === 'account' ? <AccountPage user={props.user} logout={props.logout} /> : 
-        props.content === 'create-series' ? <AddSeries user={props.user} logout={props.logout} navHandler={props.navHandler} /> : 
-        props.content === 'search' ? <h1>Search Frame Here</h1> : 
+      { props.activePage === 'browse' ? <SeriesList navHandler={props.navHandler} /> :
+        props.activePage === 'series' ? <SeriesView viewItem={props.viewItem} setUser={props.setUser} navHandler={props.navHandler} /> : 
+        props.activePage === 'login' ? <LoginPage setUser={props.setUser} navHandler={props.navHandler} /> : 
+        props.activePage === 'signup' ? <SignupPage setUser={props.setUser} navHandler={props.navHandler} /> : 
+        props.activePage === 'account' ? <AccountPage user={props.user} logout={props.logout} /> : 
+        props.activePage === 'create-series' ? <AddSeries user={props.user} logout={props.logout} navHandler={props.navHandler} /> : 
+        props.activePage === 'search' ? <h1>Search Frame Here</h1> : 
         <h1>No content</h1>
       }
     </div>

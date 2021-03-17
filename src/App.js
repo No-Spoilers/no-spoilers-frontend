@@ -7,16 +7,18 @@ import NavigationFrame from './components/NavigationFrame/NavigationFrame';
 export default class App extends Component {
   state = {
     user: null,
-    activeContent: null
+    activePage: null,
+    viewItem: null
   }
 
   componentDidMount()  {
     this.setState({user:{...localStorage}});
   }
 
-  navHandler = (selection) => {
+  navHandler = (selection, viewItem) => {
     this.setState({
-      activeContent: selection
+      activePage: selection,
+      viewItem
     })
   }
 
@@ -24,7 +26,7 @@ export default class App extends Component {
     localStorage.clear();
     this.setState({
       user: null,
-      activeContent: 'login'
+      activePage: 'login'
     })
   }
 
@@ -36,7 +38,8 @@ export default class App extends Component {
           navHandler={this.navHandler} 
         />
         <ContentFrame
-          content={this.state.activeContent}
+          activePage={this.state.activePage}
+          viewItem={this.state.viewItem}
           setUser={user => this.setState({user})}
           logout={this.logout}
           user={this.state.user}
