@@ -14,15 +14,15 @@ const ContentFrame = (props) => {
     <div className="content-frame">
       <Switch>
         <Route path="/browse">
-          <SeriesList navHandler={props.navHandler} />
+          <SeriesList seriesList={props.seriesList} />
         </Route>
 
         <Route path="/login">
-          <LoginPage setUser={props.setUser} navHandler={props.navHandler} /> 
+          <LoginPage setUser={props.setUser} /> 
         </Route>
 
         <Route path="/signup">
-          <SignupPage setUser={props.setUser} navHandler={props.navHandler} />
+          <SignupPage setUser={props.setUser} />
         </Route>
 
         <Route path="/account">
@@ -30,7 +30,7 @@ const ContentFrame = (props) => {
         </Route>
 
         <Route path="/new">
-          <AddSeries user={props.user} logout={props.logout} navHandler={props.navHandler} />
+          <AddSeries user={props.user} logout={props.logout} />
         </Route>
 
         <Route path="/search">
@@ -38,7 +38,7 @@ const ContentFrame = (props) => {
         </Route>
 
         <Route path="/:id">
-          <SeriesView viewItem={props.viewItem} setUser={props.setUser} navHandler={props.navHandler} />
+          <SeriesView setUser={props.setUser} />
         </Route>
       </Switch>
 
