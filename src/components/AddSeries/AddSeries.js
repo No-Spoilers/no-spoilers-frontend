@@ -43,9 +43,6 @@ export default class AddSeries extends Component {
           "Content-type": "application/json;charset=UTF-8",
           "Authorization": `Bearer ${localStorage.getItem('token')}`
         };
-
-        console.log('data:', data);
-        console.log('headers:', headers);
     
         const result = await fetch('https://api.no-spoilers.net/series', {
           method: "POST",
@@ -56,7 +53,7 @@ export default class AddSeries extends Component {
         const responseBody = await result.json();
 
         if (result.status !== 201) {
-          console.log('error:', result);
+          console.error('error:', result);
           this.setState({
             submitFail: responseBody.error,
             fieldsDisabled: false,
@@ -64,7 +61,6 @@ export default class AddSeries extends Component {
           })
         } else {
           // Store data
-          console.log('responseBody:', responseBody);
           this.setState({
             fieldsDisabled: false,
             submitting: false

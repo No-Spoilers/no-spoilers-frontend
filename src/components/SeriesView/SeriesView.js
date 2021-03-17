@@ -1,79 +1,84 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useParams } from "react-router-dom"
 import './SeriesView.css';
 
-class SeriesView extends Component {
-  state = {
+const SeriesView = (props) => {
+  const [ state, setState ] = useState({
     isFetching: false,
     books: [],
     entries: [],
     seriesName: null
-  }
+  });
 
-  async componentDidMount()  {
-    // TODO: check for data already in memory
+  const seriesId = useParams().id;
 
-    this.setState({isFetching: true});
-
-    const response = await fetch(`https://api.no-spoilers.net/series/${this.props.viewItem}`);
+  const loadSeriesData = async (seriesId) => {
+    const response = await fetch(`https://api.no-spoilers.net/series/${seriesId}`);
     const body = await response.json();
-    console.log('result.body:', body);
+    if (body.error) {
+      console.error(body.error);
+      setState({ ...state, isFetching: false, seriesName: 'Error Loading' });
+      return;
+    }
 
     const series = body.filter(item => !item.bookId && !item.entryId) 
     const books = body.filter(item => item.bookId && !item.entryId)
     const entries = body.filter(item => item.entryId)
 
-    this.setState({
+    setState({
+      ...state,
       isFetching: false,
       books,
       entries,
-      seriesName: series[0].name
+      seriesName: series[0].name || 'Name not found'
     });
   }
-
-  handleSeriesClick = async (seriesId) => {
-
-  }
   
-  render() {
-    let books = <div>No Books Yet</div>;
-    let entries = <div>No Entries Yet</div>;
+  // TODO: check for data already in memory
+  if (!state.isFetching && !state.seriesName) {
+    setState({ ...state, isFetching: true });
+    loadSeriesData(seriesId);
+  }
 
-    if (this.state.books.length > 0) {
-      books = (
-        <div className="book-list">
-          <h2>Books in {this.state.selectedSeries}</h2>
-          {this.state.books.map(book => (
-            <div key={book.bookId} className="bullet">
-              <div>{book.name}</div>
-            </div>
-          ))}
-        </div>
-      );
+  let books = <div>No Books Yet</div>;
+  let entries = <div>No Entries Yet</div>;
 
-      entries = (
-        <div className="entry-list">
-          <h2>Entries in {this.state.selectedSeries}</h2>
-          {this.state.entries.map(entry => (
-            <div key={entry.entryId} className="bullet">
-              <div>{entry.text} - {entry.createdBy} ({entry.createdAt})</div>
-            </div>
-          ))}
-        </div>
-      );
-    }
+  if (state.books.length > 0) {
+    books = (
+      <div className="book-list">
+        <h2>Books in {state.seriesName}</h2>
+        {state.books.map(book => (
+          <div key={book.bookId} className="bullet">
+            <div>{book.name}</div>
+          </div>
+        ))}
+      </div>
+    );
 
-    return (
-      <div className="series-view-container">
-        
-        <div>
-          <h1>Series: {this.state.seriesName}</h1>
-          {books}
-          {entries}
-        </div>
-
+    entries = (
+      <div className="entry-list">
+        <h2>Entries in {state.seriesName}</h2>
+        {state.entries.map(entry => (
+          <div key={entry.entryId} className="bullet">
+            <div>{entry.text} - {entry.createdBy} ({entry.createdAt})</div>
+          </div>
+        ))}
       </div>
     );
   }
+
+  return (
+    <div className="series-view-container">
+      
+      <div>
+        <h1>Series: {state.seriesName}</h1>
+        {books}
+        {entries}
+      </div>
+
+    </div>
+  );
+
 }
 
 export default SeriesView;

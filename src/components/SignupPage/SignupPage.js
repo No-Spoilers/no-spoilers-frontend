@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import './SignupPage.css';
 
-export default class SignupPage extends Component {
-  state = {
+const SignupPage = (props) => {
+  const history = useHistory();
+
+  const [state, setState] = useState({
     email: '',
     name: '',
     password: '',
@@ -12,35 +15,35 @@ export default class SignupPage extends Component {
     nameFieldClass: '',
     passwordFieldClass: '',
     loginFail: null
+  });
+  
+  const validateForm = () => {
+    return state.email.length > 0 && state.password.length > 0 && state.name.length > 0;
+  }
+
+  const validateEmail = () => {
+    setState({...state, emailFieldClass:'buttonValidate'})
+  }
+
+  const validateName = () => {
+    setState({...state, nameFieldClass:'buttonValidate'})
+  }
+
+  const validatePassword = () => {
+    setState({...state, passwordFieldClass:'buttonValidate'})
   }
   
-  validateForm = () => {
-    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.name.length > 0;
-  }
-
-  validateEmail = () => {
-    this.setState({emailFieldClass:'buttonValidate'})
-  }
-
-  validateName = () => {
-    this.setState({nameFieldClass:'buttonValidate'})
-  }
-
-  validatePassword = () => {
-    this.setState({passwordFieldClass:'buttonValidate'})
-  }
-  
-  loginButtonHandler = async (e) => {
+  const loginButtonHandler = async (e) => {
     e.preventDefault();
 
-    if (this.validateForm()) {
-      this.setState({fieldsDisabled: true});
+    if (validateForm()) {
+      setState({...state, fieldsDisabled: true});
       
       try {
         const credentials = {
-          "email": this.state.email,
-          "name": this.state.name,
-          "password": this.state.password
+          "email": state.email,
+          "name": state.name,
+          "password": state.password
         }
     
         const result = await fetch('https://api.no-spoilers.net/user', {
@@ -52,7 +55,8 @@ export default class SignupPage extends Component {
         const responseBody = await result.json();
 
         if (result.status !== 201) {
-          this.setState({
+          setState({
+            ...state, 
             loginFail: responseBody.error,
             fieldsDisabled: false
           })
@@ -60,20 +64,22 @@ export default class SignupPage extends Component {
           // Store user data in localStorage
           Object.keys(responseBody).forEach(key => localStorage.setItem(key, responseBody[key]));
     
-          this.props.setUser(responseBody);
-          this.props.navHandler('account');
+          props.setUser(responseBody);
+          history.push('/account');
         }
       } catch (err) {
         console.error('err:', err);
-        this.setState({
+        setState({
+          ...state, 
           fieldsDisabled: false
         })
       }
     }
   }
 
-  cancelButtonHandler = () => {
-    this.setState({
+  const cancelButtonHandler = () => {
+    setState({
+      ...state, 
       fieldsDisabled: false,
       email: '',
       password: '',
@@ -82,87 +88,87 @@ export default class SignupPage extends Component {
       passwordFieldClass: ''
     });
     
-    this.props.navHandler('browse');
+    history.push('/browse');
   }
 
-  render() {
-    return (
-      <div className="signup-container">
-        <div className="tab-container">
-          <div className="signup-login-tab" onClick={() => this.props.navHandler('login')}>Login</div>
-          <div className="signup-signup-tab">Signup</div>
-        </div>
-        <form className="signup-form-box" onSubmit={this.loginButtonHandler}>
-          <label htmlFor="email"><b>Email</b></label>
-          <input 
-            name="email" 
-            type="email" 
-            placeholder="Enter Email" 
-            className={this.state.emailFieldClass}
-            onBlur={this.validateEmail}
-            value={this.state.email}
-            onChange={(e) => this.setState({email:e.target.value})}
-            disabled={this.state.fieldsDisabled}
-            required 
-            autoFocus 
-          />
-          
-          <label htmlFor="name"><b>Display Name</b></label>
-          <input 
-            name="name" 
-            type="text"
-            placeholder="Enter name" 
-            className={this.state.nameFieldClass}
-            onBlur={this.validateName}
-            value={this.state.name}
-            onChange={(e) => this.setState({name:e.target.value})}
-            disabled={this.state.fieldsDisabled}
-            required 
-            autoFocus 
-          />
-  
-          <label htmlFor="psw"><b>Password</b></label>
-          <input 
-            name="psw" 
-            type="password" 
-            placeholder="Enter Password" 
-            className={this.state.passwordFieldClass}
-            onBlur={this.validatePassword}
-            value={this.state.password}
-            onChange={(e) => this.setState({password:e.target.value})}
-            disabled={this.state.fieldsDisabled}
-            required 
-          />
-  
-          <label htmlFor="conf-psw"><b>Confirm Password</b></label>
-          <input 
-            name="conf-psw" 
-            type="password" 
-            placeholder="Confirm Password" 
-            className={this.state.passwordFieldClass}
-            onBlur={this.validatePassword}
-            value={this.state.confirmPassword}
-            onChange={(e) => this.setState({confirmPassword:e.target.value})}
-            disabled={this.state.fieldsDisabled}
-            required 
-          />
-
-          <button 
-            type="submit"
-            onClick={this.loginButtonHandler} 
-            className="login-button"
-            disabled={!this.validateForm()}
-          >Sign Up</button>
-          
-          <button 
-            type="reset"
-            onClick={this.cancelButtonHandler} 
-            className="cancel-button"
-          >Cancel</button>
-
-          {this.state.loginFail ? <div className="login-fail">Error: {this.state.loginFail}</div> : null}
-        </form>
+  return (
+    <div className="signup-container">
+      <div className="tab-container">
+        <div className="signup-login-tab" onClick={() => history.push('/login')}>Login</div>
+        <div className="signup-signup-tab">Signup</div>
       </div>
-    )
-  }
+      <form className="signup-form-box" onSubmit={loginButtonHandler}>
+        <label htmlFor="email"><b>Email</b></label>
+        <input 
+          name="email" 
+          type="email" 
+          placeholder="Enter Email" 
+          className={state.emailFieldClass}
+          onBlur={validateEmail}
+          value={state.email}
+          onChange={(e) => setState({...state, email:e.target.value})}
+          disabled={state.fieldsDisabled}
+          required 
+          autoFocus 
+        />
+        
+        <label htmlFor="name"><b>Display Name</b></label>
+        <input 
+          name="name" 
+          type="text"
+          placeholder="Enter name" 
+          className={state.nameFieldClass}
+          onBlur={validateName}
+          value={state.name}
+          onChange={(e) => setState({...state, name:e.target.value})}
+          disabled={state.fieldsDisabled}
+          required 
+          autoFocus 
+        />
+
+        <label htmlFor="psw"><b>Password</b></label>
+        <input 
+          name="psw" 
+          type="password" 
+          placeholder="Enter Password" 
+          className={state.passwordFieldClass}
+          onBlur={validatePassword}
+          value={state.password}
+          onChange={(e) => setState({...state, password:e.target.value})}
+          disabled={state.fieldsDisabled}
+          required 
+        />
+
+        <label htmlFor="conf-psw"><b>Confirm Password</b></label>
+        <input 
+          name="conf-psw" 
+          type="password" 
+          placeholder="Confirm Password" 
+          className={state.passwordFieldClass}
+          onBlur={validatePassword}
+          value={state.confirmPassword}
+          onChange={(e) => setState({...state, confirmPassword:e.target.value})}
+          disabled={state.fieldsDisabled}
+          required 
+        />
+
+        <button 
+          type="submit"
+          onClick={loginButtonHandler} 
+          className="login-button"
+          disabled={!validateForm()}
+        >Sign Up</button>
+        
+        <button 
+          type="reset"
+          onClick={cancelButtonHandler} 
+          className="cancel-button"
+        >Cancel</button>
+
+        {state.loginFail ? <div className="login-fail">Error: {state.loginFail}</div> : null}
+      </form>
+    </div>
+  )
 }
+
+export default SignupPage;

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Switch, Route } from "react-router-dom"
+
 import AccountPage from '../AccountPage/AccountPage';
 import LoginPage from '../LoginPage/LoginPage';
 import SeriesList from '../SeriesList/SeriesList';
@@ -10,15 +12,36 @@ import './ContentFrame.css';
 const ContentFrame = (props) => {
   return (
     <div className="content-frame">
-      { props.activePage === 'browse' ? <SeriesList navHandler={props.navHandler} /> :
-        props.activePage === 'series' ? <SeriesView viewItem={props.viewItem} setUser={props.setUser} navHandler={props.navHandler} /> : 
-        props.activePage === 'login' ? <LoginPage setUser={props.setUser} navHandler={props.navHandler} /> : 
-        props.activePage === 'signup' ? <SignupPage setUser={props.setUser} navHandler={props.navHandler} /> : 
-        props.activePage === 'account' ? <AccountPage user={props.user} logout={props.logout} /> : 
-        props.activePage === 'create-series' ? <AddSeries user={props.user} logout={props.logout} navHandler={props.navHandler} /> : 
-        props.activePage === 'search' ? <h1>Search Frame Here</h1> : 
-        <h1>No content</h1>
-      }
+      <Switch>
+        <Route path="/browse">
+          <SeriesList navHandler={props.navHandler} />
+        </Route>
+
+        <Route path="/login">
+          <LoginPage setUser={props.setUser} navHandler={props.navHandler} /> 
+        </Route>
+
+        <Route path="/signup">
+          <SignupPage setUser={props.setUser} navHandler={props.navHandler} />
+        </Route>
+
+        <Route path="/account">
+          <AccountPage user={props.user} logout={props.logout} />
+        </Route>
+
+        <Route path="/new">
+          <AddSeries user={props.user} logout={props.logout} navHandler={props.navHandler} />
+        </Route>
+
+        <Route path="/search">
+          <h1>Search Frame Here</h1>
+        </Route>
+
+        <Route path="/:id">
+          <SeriesView viewItem={props.viewItem} setUser={props.setUser} navHandler={props.navHandler} />
+        </Route>
+      </Switch>
+
     </div>
   )
 }

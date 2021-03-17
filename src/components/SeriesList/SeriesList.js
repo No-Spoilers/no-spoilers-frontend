@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './SeriesList.css';
 
 class SeriesList extends Component {
@@ -19,7 +20,6 @@ class SeriesList extends Component {
 
     const response = await fetch('https://api.no-spoilers.net/series');
     const body = await response.json();
-    console.log('result.body:', body);
 
     this.setState({
       isFetching: false,
@@ -39,11 +39,11 @@ class SeriesList extends Component {
         <div className="series-list">
           <div className="series-list-header-container">
             <div className="series-list-header-title">Series List</div>
-            <div className="series-add-button" onClick={() => this.props.navHandler('create-series')}>Add New<br/>Series</div>
+            <Link to='/new'><div className="series-add-button">Add New<br/>Series</div></Link>
           </div>
           {this.state.series.map(item => (
             <div key={item.seriesId} className="series-name">
-              <div onClick={() => this.props.navHandler('series', item.seriesId)}>{item.name}</div>
+              <Link to={`/${item.seriesId}`}><div>{item.name}</div></Link>
             </div>
           ))}
         </div>

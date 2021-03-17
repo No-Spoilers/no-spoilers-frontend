@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from "react-router-dom"
 
 import './App.css';
 import ContentFrame from './components/ContentFrame/ContentFrame';
@@ -25,27 +26,30 @@ export default class App extends Component {
   logout = () => {
     localStorage.clear();
     this.setState({
-      user: null,
-      activePage: 'login'
+      user: null
     })
   }
 
   render() {
     return (
-      <div className="App">
-        <NavigationFrame
-          user={this.state.user}
-          navHandler={this.navHandler} 
-        />
-        <ContentFrame
-          activePage={this.state.activePage}
-          viewItem={this.state.viewItem}
-          setUser={user => this.setState({user})}
-          logout={this.logout}
-          user={this.state.user}
-          navHandler={this.navHandler} 
-        />
-      </div>
+      <Router>
+        <div className="App">
+
+          <NavigationFrame
+            user={this.state.user}
+            navHandler={this.navHandler} 
+          />
+          <ContentFrame
+            activePage={this.state.activePage}
+            viewItem={this.state.viewItem}
+            setUser={user => this.setState({user})}
+            logout={this.logout}
+            user={this.state.user}
+            navHandler={this.navHandler} 
+          />
+
+        </div>
+      </Router>
     );
   }
 }

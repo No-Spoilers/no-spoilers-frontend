@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './NavigationFrame.css';
 
 const NavigationFrame = (props) => {
@@ -7,9 +8,11 @@ const NavigationFrame = (props) => {
   
   if (props.user && props.user.name) {
     userDiv = (
-      <div className="account-info"  onClick={() => props.navHandler('account')}>
-        {props.user.name}
-      </div>
+      <Link to='/account'>
+        <div className="account-info">
+          {props.user.name}
+        </div>
+      </Link>
     )
   }
 
@@ -24,11 +27,11 @@ const NavigationFrame = (props) => {
       <div className="nav-button-box">
         {userDiv}
         {props.user && props.user.name 
-          ? <div className="nav-option">My Series</div> 
-          : <div className="nav-option" onClick={() => props.navHandler('login')}>Login/Signup</div> 
+          ? <Link to='/'><div className="nav-option">My Series (tbd)</div></Link> 
+          : <Link to='/login'><div className="nav-option">Login/Signup</div></Link> 
         }
-        <div className="nav-option" onClick={() => props.navHandler('browse')}>Browse</div>
-        <div className="nav-option" onClick={() => props.navHandler('search')}>Search</div>
+        <Link to='browse'><div className="nav-option">Browse</div></Link>
+        <Link to='search'><div className="nav-option">Search</div></Link>
       </div>
     </div>
   )

@@ -1,38 +1,42 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import './LoginPage.css';
 
-export default class LoginPage extends Component {
-  state = {
+const LoginPage = (props) => {
+  const history = useHistory();
+
+  const [state, setState] = useState({
     email: '',
     password: '',
     fieldsDisabled: false,
     emailFieldClass: '',
     passwordFieldClass: '',
     loginFail: null
-  }
+  })
   
-  validateForm = () => {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+  const validateForm = () => {
+    return state.email.length > 0 && state.password.length > 0;
   }
 
-  validateEmail = () => {
-    this.setState({emailFieldClass:'buttonValidate'})
+  const validateEmail = () => {
+    setState({...state, emailFieldClass:'buttonValidate'})
   }
 
-  validatePassword = () => {
-    this.setState({passwordFieldClass:'buttonValidate'})
+  const validatePassword = () => {
+    setState({...state, passwordFieldClass:'buttonValidate'})
   }
   
-  loginButtonHandler = async (e) => {
+  const loginButtonHandler = async (e) => {
     e.preventDefault();
 
-    if (this.validateForm()) {
-      this.setState({fieldsDisabled: true});
+    if (validateForm()) {
+      setState({...state, fieldsDisabled: true});
       
       try {
         const credentials = {
-          "email": this.state.email,
-          "password": this.state.password
+          "email": state.email,
+          "password": state.password
         }
     
         const result = await fetch('https://api.no-spoilers.net/login', {
@@ -44,7 +48,8 @@ export default class LoginPage extends Component {
         const responseBody = await result.json();
 
         if (result.status !== 200) {
-          this.setState({
+          setState({
+            ...state, 
             loginFail: responseBody.error,
             fieldsDisabled: false
           })
@@ -52,20 +57,22 @@ export default class LoginPage extends Component {
           // Store user data in localStorage
           Object.keys(responseBody).forEach(key => localStorage.setItem(key, responseBody[key]));
     
-          this.props.setUser(responseBody);
-          this.props.navHandler('account');
+          props.setUser(responseBody);
+          history.push('/account');
         }
       } catch (err) {
         console.error('err:', err);
-        this.setState({
+        setState({
+          ...state, 
           fieldsDisabled: false
         })
       }
     }
   }
 
-  cancelButtonHandler = () => {
-    this.setState({
+  const cancelButtonHandler = () => {
+    setState({
+      ...state, 
       fieldsDisabled: false,
       email: '',
       password: '',
@@ -73,63 +80,66 @@ export default class LoginPage extends Component {
       passwordFieldClass: ''
     });
     
-    this.props.navHandler('browse');
+    props.navHandler('browse');
   }
 
-  render() {
-    return (
-        <div className="login-container">
-          <div className="tab-container">
-            <div className="login-login-tab">Login</div>
-            <div className="login-signup-tab" onClick={() => this.props.navHandler('signup')}>Signup</div>
+
+  return (
+      <div className="login-container">
+        <div className="tab-container">
+          <div className="login-login-tab">Login</div>
+          <div className="login-signup-tab">
+            <Link to='/signup'>Signup</Link>
           </div>
-          <form className="form-box" onSubmit={this.loginButtonHandler}>
-            <label htmlFor="email"><b>Email</b></label>
-            <input 
-              name="email" 
-              type="email" 
-              placeholder="Enter Email" 
-              className={this.state.emailFieldClass}
-              onBlur={this.validateEmail}
-              value={this.state.email}
-              onChange={(e) => this.setState({email:e.target.value})}
-              disabled={this.state.fieldsDisabled}
-              required 
-              autoFocus 
-            />
-    
-            <label htmlFor="psw"><b>Password</b></label>
-            <input 
-              name="psw" 
-              type="password" 
-              placeholder="Enter Password" 
-              className={this.state.passwordFieldClass}
-              onBlur={this.validatePassword}
-              value={this.state.password}
-              onChange={(e) => this.setState({password:e.target.value})}
-              disabled={this.state.fieldsDisabled}
-              required 
-            />
-
-            <button 
-              type="submit"
-              onClick={this.loginButtonHandler} 
-              className="login-button"
-              disabled={!this.validateForm()}
-            >Login</button>
-            
-            <button 
-              type="reset"
-              onClick={this.cancelButtonHandler} 
-              className="cancel-button"
-            >Cancel</button>
-
-            {this.state.loginFail ? <div className="login-fail">Error: {this.state.loginFail}</div> : null}
-          </form>
-  
-  
         </div>
+        <form className="form-box" onSubmit={loginButtonHandler}>
+          <label htmlFor="email"><b>Email</b></label>
+          <input 
+            name="email" 
+            type="email" 
+            placeholder="Enter Email" 
+            className={state.emailFieldClass}
+            onBlur={validateEmail}
+            value={state.email}
+            onChange={(e) => setState({...state, email:e.target.value})}
+            disabled={state.fieldsDisabled}
+            required 
+            autoFocus 
+          />
   
-    )
-  }
+          <label htmlFor="psw"><b>Password</b></label>
+          <input 
+            name="psw" 
+            type="password" 
+            placeholder="Enter Password" 
+            className={state.passwordFieldClass}
+            onBlur={validatePassword}
+            value={state.password}
+            onChange={(e) => setState({...state, password:e.target.value})}
+            disabled={state.fieldsDisabled}
+            required 
+          />
+
+          <button 
+            type="submit"
+            onClick={loginButtonHandler} 
+            className="login-button"
+            disabled={!validateForm()}
+          >Login</button>
+          
+          <button 
+            type="reset"
+            onClick={cancelButtonHandler} 
+            className="cancel-button"
+          >Cancel</button>
+
+          {state.loginFail ? <div className="login-fail">Error: {state.loginFail}</div> : null}
+        </form>
+
+
+      </div>
+
+  )
 }
+
+export default LoginPage;
