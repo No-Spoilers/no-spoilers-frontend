@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { reduxConnect } from '../../store/reduxTools';
 import './SeriesList.css';
 
 const SeriesList = (props) => {
@@ -37,4 +38,4 @@ const SeriesList = (props) => {
   );
 }
 
-export default SeriesList;
+export default reduxConnect(SeriesList);

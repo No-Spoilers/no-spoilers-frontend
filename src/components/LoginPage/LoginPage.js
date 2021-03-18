@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { reduxConnect } from '../../store/reduxTools';
 import './LoginPage.css';
 
 const LoginPage = (props) => {
@@ -38,14 +39,17 @@ const LoginPage = (props) => {
           "email": state.email,
           "password": state.password
         }
-    
-        const result = await fetch('https://api.no-spoilers.net/login', {
+
+        const fetchSettings = {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: {"Content-type": "application/json;charset=UTF-8"}
-        })
-
+        }
+            
+        props.signalFetching();
+        const result = await fetch('https://api.no-spoilers.net/login', fetchSettings)
         const responseBody = await result.json();
+        props.signalNotFetching();
 
         if (result.status !== 200) {
           setState({
@@ -57,13 +61,19 @@ const LoginPage = (props) => {
           // Store user data in localStorage
           Object.keys(responseBody).forEach(key => localStorage.setItem(key, responseBody[key]));
     
-          props.setUser(responseBody);
+          props.setUser({
+            userName: responseBody.name,
+            userToken: responseBody.token,
+            userEmail: responseBody.email
+          });
+          
           history.push('/account');
         }
       } catch (err) {
         console.error('err:', err);
         setState({
           ...state, 
+          loginFail: err,
           fieldsDisabled: false
         })
       }
@@ -142,4 +152,4 @@ const LoginPage = (props) => {
   )
 }
 
-export default LoginPage;
+export default reduxConnect(LoginPage);

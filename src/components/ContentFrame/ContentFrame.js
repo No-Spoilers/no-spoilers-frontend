@@ -14,23 +14,23 @@ const ContentFrame = (props) => {
     <div className="content-frame">
       <Switch>
         <Route path="/browse">
-          <SeriesList seriesList={props.seriesList} />
+          <SeriesList />
         </Route>
 
         <Route path="/login">
-          <LoginPage setUser={props.setUser} /> 
+          <LoginPage /> 
         </Route>
 
         <Route path="/signup">
-          <SignupPage setUser={props.setUser} />
+          <SignupPage />
         </Route>
 
         <Route path="/account">
-          <AccountPage user={props.user} logout={props.logout} />
+          <AccountPage />
         </Route>
 
         <Route path="/new">
-          <AddSeries user={props.user} logout={props.logout} />
+          <AddSeries />
         </Route>
 
         <Route path="/search">
@@ -38,7 +38,7 @@ const ContentFrame = (props) => {
         </Route>
 
         <Route path="/:id">
-          <SeriesView setUser={props.setUser} />
+          <SeriesView />
         </Route>
       </Switch>
 

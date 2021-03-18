@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { reduxConnect } from '../../store/reduxTools';
 import './NavigationFrame.css';
 
 const NavigationFrame = (props) => {
 
   let userDiv = null;
   
-  if (props.user && props.user.name) {
+  if (props.userName) {
     userDiv = (
       <Link to='/account'>
         <div className="account-info">
-          {props.user.name}
+          {props.userName}
         </div>
       </Link>
     )
@@ -26,7 +27,7 @@ const NavigationFrame = (props) => {
 
       <div className="nav-button-box">
         {userDiv}
-        {props.user && props.user.name 
+        {props.userName 
           ? <Link to='/'><div className="nav-option">My Series (tbd)</div></Link> 
           : <Link to='/login'><div className="nav-option">Login/Signup</div></Link> 
         }
@@ -38,4 +39,4 @@ const NavigationFrame = (props) => {
   
 }
 
-export default NavigationFrame;
+export default reduxConnect(NavigationFrame);

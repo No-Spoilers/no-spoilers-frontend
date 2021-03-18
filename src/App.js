@@ -1,60 +1,50 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from "react-router-dom"
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import './App.css';
 import ContentFrame from './components/ContentFrame/ContentFrame';
 import NavigationFrame from './components/NavigationFrame/NavigationFrame';
+import { reduxConnect } from './store/reduxTools';
 
-export default class App extends Component {
-  state = {
-    user: null,
-    isFetching: false,
-    seriesList: []
-  }
 
-  componentDidMount()  {
-    this.setState({user:{...localStorage}});
-    this.getSeriesList();
+const App = (props) => {
+  if (!props.userToken) {
+    const user = {
+      userName: localStorage.getItem('name'),
+      userToken: localStorage.getItem('token'),
+      userEmail: localStorage.getItem('email')
+    };
+    if (user.userToken) {
+      props.setUser(user);
+    }
   }
   
-  getSeriesList = async () => {
-    this.setState({isFetching: true});
+  const getSeriesList = async () => {
+    props.signalFetching();
 
     const response = await fetch('https://api.no-spoilers.net/series');
     const body = await response.json();
 
-    this.setState({
-      isFetching: false,
-      seriesList: body
-    });
+    props.signalNotFetching();
+    if (body && body.length > 0) {
+      props.setSeriesList(body);  
+    } else {
+      props.setSeriesList(['load error']);  
+    }
+  }
+  
+  if (!props.isFetching && props.seriesList.length === 0) {
+    getSeriesList();
   }
 
-  logout = () => {
-    localStorage.clear();
-    this.setState({
-      user: null
-    })
-  }
-
-  render() {
-    return (
-      <Router>
-        <div className="App">
-
-          <NavigationFrame
-            user={this.state.user}
-            navHandler={this.navHandler} 
-          />
-          <ContentFrame
-            setUser={user => this.setState({user})}
-            logout={this.logout}
-            user={this.state.user}
-            isFetching={this.isFetching} 
-            seriesList={this.state.seriesList}
-          />
-
-        </div>
-      </Router>
-    );
-  }
+  return (
+    <Router>
+      <div className="App">
+        <NavigationFrame />
+        <ContentFrame />
+      </div>
+    </Router>
+  );
 }
+
+export default reduxConnect(App);
