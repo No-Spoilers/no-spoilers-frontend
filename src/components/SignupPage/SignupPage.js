@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { reduxConnect } from '../../store/reduxTools';
 import './SignupPage.css';
 
 const SignupPage = (props) => {
@@ -45,19 +46,20 @@ const SignupPage = (props) => {
           "name": state.name,
           "password": state.password
         }
-    
-        const result = await fetch('https://api.no-spoilers.net/user', {
+
+        const fetchSettings = {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: {"Content-type": "application/json;charset=UTF-8"}
-        })
-
+        }
+    
+        const result = await fetch('https://api.no-spoilers.net/user', fetchSettings)
         const responseBody = await result.json();
 
         if (result.status !== 201) {
           setState({
             ...state, 
-            loginFail: responseBody.error,
+            loginFail: responseBody,
             fieldsDisabled: false
           })
         } else {
@@ -122,8 +124,7 @@ const SignupPage = (props) => {
           value={state.name}
           onChange={(e) => setState({...state, name:e.target.value})}
           disabled={state.fieldsDisabled}
-          required 
-          autoFocus 
+          required  
         />
 
         <label htmlFor="psw"><b>Password</b></label>
@@ -171,4 +172,4 @@ const SignupPage = (props) => {
   )
 }
 
-export default SignupPage;
+export default reduxConnect(SignupPage);

@@ -46,10 +46,8 @@ const LoginPage = (props) => {
           headers: {"Content-type": "application/json;charset=UTF-8"}
         }
             
-        props.signalFetching();
         const result = await fetch('https://api.no-spoilers.net/login', fetchSettings)
         const responseBody = await result.json();
-        props.signalNotFetching();
 
         if (result.status !== 200) {
           setState({
@@ -66,7 +64,7 @@ const LoginPage = (props) => {
             userToken: responseBody.token,
             userEmail: responseBody.email
           });
-          
+
           history.push('/account');
         }
       } catch (err) {

@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { reduxConnect } from '../../store/reduxTools';
 import './AccountPage.css';
 
 const AccountPage = (props) => {
   const history = useHistory();
+
+  useEffect(() => {
+    if (!props.userToken) {
+      history.push('/');
+      return <div></div>;
+    }
+  })
   
-  const handleLogout = () => {
-    props.onUserRemoved();
-  }
-
-  if (!props.userToken) {
-    history.push('/');
-    return <div></div>;
-  }
-
   return (
     <div className="account-container">
       <div className="account-frame">
@@ -22,7 +20,7 @@ const AccountPage = (props) => {
         <div className="info-item">Email: {props.userEmail}</div>
         
       </div>
-      <div className="logout-button" onClick={handleLogout}>Logout</div>
+      <div className="logout-button" onClick={props.userLogout}>Logout</div>
     </div>
   )
 }

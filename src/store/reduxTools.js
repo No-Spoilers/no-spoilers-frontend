@@ -16,7 +16,7 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return {
-    onUserRemoved: () => dispatch({type: actionTypes.REMOVE_USER}),
+    userLogout: () => dispatch({type: actionTypes.REMOVE_USER}),
     setUser: (user) => dispatch({type: actionTypes.SET_USER, user}),
     setSeriesList: (seriesList) => dispatch({type: actionTypes.ADD_SERIES_LIST, seriesList}),
     signalFetching: () => dispatch({type: actionTypes.IS_FETCHING}),

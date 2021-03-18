@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import './App.css';
@@ -8,16 +8,18 @@ import { reduxConnect } from './store/reduxTools';
 
 
 const App = (props) => {
-  if (!props.userToken) {
-    const user = {
-      userName: localStorage.getItem('name'),
-      userToken: localStorage.getItem('token'),
-      userEmail: localStorage.getItem('email')
-    };
-    if (user.userToken) {
-      props.setUser(user);
+  useEffect(() => {
+    if (!props.userToken) {
+      const user = {
+        userName: localStorage.getItem('name'),
+        userToken: localStorage.getItem('token'),
+        userEmail: localStorage.getItem('email')
+      };
+      if (user.userToken) {
+        props.setUser(user);
+      }
     }
-  }
+  })
   
   const getSeriesList = async () => {
     props.signalFetching();

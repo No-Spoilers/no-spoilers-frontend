@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from "react-router-dom"
+import { reduxConnect } from '../../store/reduxTools';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
@@ -81,4 +82,4 @@ const SeriesView = (props) => {
 
 }
 
-export default SeriesView;
+export default reduxConnect(SeriesView);
