@@ -10,12 +10,14 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+
     case actionTypes.SET_USER: 
       return {
         ...state,
         ...action.user
       };
-    case actionTypes.REMOVE_USER: 
+
+    case actionTypes.LOGOUT_USER: 
       ['name','token','email'].forEach(item => localStorage.removeItem(item));
       return {
         ...state,
@@ -23,11 +25,25 @@ const reducer = (state = initialState, action) => {
         userEmail: null,
         userToken: null,
       };
+
     case actionTypes.ADD_SERIES_LIST: 
       return {
         ...state,
         seriesList: action.seriesList
       };
+
+    case actionTypes.FETCHING: 
+      if (action.isFetching === true || action.isFetching === false) {
+        if (state.isFetching !== action.isFetching) {
+          return {
+            ...state,
+            seriesList: action.seriesList
+          };
+        }
+      }
+
+      return state;
+
     default: 
       return state;
   }

@@ -22,12 +22,12 @@ const App = (props) => {
   })
   
   const getSeriesList = async () => {
-    props.signalFetching();
+    props.signalFetching(true);
 
     const response = await fetch('https://api.no-spoilers.net/series');
     const body = await response.json();
 
-    props.signalNotFetching();
+    props.signalFetching(false);
     if (body && body.length > 0) {
       props.setSeriesList(body);  
     } else {
