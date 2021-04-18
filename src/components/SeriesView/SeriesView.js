@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from "react-router-dom"
-import { reduxConnect } from '../../store/reduxTools';
+import { reduxConnect } from '../../redux/tools';
 import './SeriesView.css';
 
 const SeriesView = (props) => {

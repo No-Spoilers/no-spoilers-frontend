@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { reduxConnect } from '../../store/reduxTools';
+import { reduxConnect } from '../../redux/tools';
 import './SignupPage.css';
 
 const SignupPage = (props) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { reduxConnect } from '../../store/reduxTools';
+import { reduxConnect } from '../../redux/tools';
 import './SeriesList.css';
 
 const SeriesList = (props) => {
@@ -10,7 +10,7 @@ const SeriesList = (props) => {
   }
 
   let seriesListDiv = <div></div>;
-  if (props.seriesList.length > 0) {
+  if (props.seriesList?.length > 0) {
     seriesListDiv = (
       <div className="series-list">
         <div className="series-list-header-container">

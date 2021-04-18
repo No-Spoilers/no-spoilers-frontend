@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { reduxConnect } from '../../store/reduxTools';
+import { reduxConnect } from '../../redux/tools';
 import './AccountPage.css';
 
 const AccountPage = (props) => {

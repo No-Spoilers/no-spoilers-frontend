@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { reduxConnect } from '../../store/reduxTools';
+import { reduxConnect } from '../../redux/tools';
 import './LoginPage.css';
 
 const LoginPage = (props) => {

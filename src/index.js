@@ -5,10 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './store/reducer';
+import store from './redux/store';
+import { fetchSeriesList } from './redux/actions'
 
-const store = createStore(reducer);
+store.dispatch(fetchSeriesList())
 
 ReactDOM.render(
   <React.StrictMode>

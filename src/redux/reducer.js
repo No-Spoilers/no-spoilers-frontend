@@ -1,4 +1,4 @@
-import { actionTypes } from './reduxTools';
+import { actionTypes } from './actions';
 
 const initialState = {
   userName: null,
@@ -9,6 +9,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+  console.log('action.type:', action.type);
   switch (action.type) {
 
     case actionTypes.SET_USER: 
@@ -26,7 +27,8 @@ const reducer = (state = initialState, action) => {
         userToken: null,
       };
 
-    case actionTypes.ADD_SERIES_LIST: 
+    case actionTypes.ADD_SERIES_LIST:
+      console.log('-- reducer ADD_SERIES_LIST --'); 
       return {
         ...state,
         seriesList: action.seriesList

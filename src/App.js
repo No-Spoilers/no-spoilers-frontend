@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import ContentFrame from './components/ContentFrame/ContentFrame';
 import NavigationFrame from './components/NavigationFrame/NavigationFrame';
-import { reduxConnect } from './store/reduxTools';
 
 
 const App = (props) => {
@@ -20,24 +19,6 @@ const App = (props) => {
       }
     }
   })
-  
-  const getSeriesList = async () => {
-    props.signalFetching(true);
-
-    const response = await fetch('https://api.no-spoilers.net/series');
-    const body = await response.json();
-
-    props.signalFetching(false);
-    if (body && body.length > 0) {
-      props.setSeriesList(body);  
-    } else {
-      props.setSeriesList(['load error']);  
-    }
-  }
-  
-  if (!props.isFetching && props.seriesList.length === 0) {
-    getSeriesList();
-  }
 
   return (
     <Router>
@@ -49,4 +30,4 @@ const App = (props) => {
   );
 }
 
-export default reduxConnect(App);
+export default App;
