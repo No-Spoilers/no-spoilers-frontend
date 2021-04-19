@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { actionTypes } from './actions';
+import { actionCreators } from './actions';
 
 const mapStateToProps = state => {
   return {
@@ -9,10 +9,11 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
   return {
-    userLogout: () => dispatch({type: actionTypes.LOGOUT_USER}),
-    setUser: (user) => dispatch({type: actionTypes.SET_USER, user}),
-    setSeriesList: (seriesList) => dispatch({type: actionTypes.ADD_SERIES_LIST, seriesList}),
-    signalFetching: (isFetching) => dispatch({type: actionTypes.FETCHING, isFetching}),
+    userLogout: () => dispatch(actionCreators.logoutUser()),
+    setUser: (user) => dispatch(actionCreators.setUser(user)),
+    setSeriesList: (seriesList) => dispatch(actionCreators.setSeriesList(seriesList)),
+    signalFetching: (isFetching) => dispatch(actionCreators.setFetchingStatus(isFetching)),
+    getSeriesDetail: (seriesId) => dispatch(actionCreators.fetchSeriesDetail(seriesId))
   }
 }
 

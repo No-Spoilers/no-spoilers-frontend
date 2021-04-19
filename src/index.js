@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { fetchSeriesList } from './redux/actions'
+import { actionCreators } from './redux/actions'
 
-store.dispatch(fetchSeriesList())
+store.dispatch(actionCreators.fetchSeriesList())
 
 ReactDOM.render(
   <React.StrictMode>

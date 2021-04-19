@@ -5,20 +5,21 @@ const initialState = {
   userEmail: null,
   userToken: null,
   isFetching: false,
-  seriesList: []
+  seriesList: [],
+  seriesDetails: {}
 }
 
 const reducer = (state = initialState, action) => {
-  console.log('action.type:', action.type);
   switch (action.type) {
 
-    case actionTypes.SET_USER: 
+    case actionTypes.SET_USER: {
       return {
         ...state,
         ...action.user
       };
+    }
 
-    case actionTypes.LOGOUT_USER: 
+    case actionTypes.LOGOUT_USER: {
       ['name','token','email'].forEach(item => localStorage.removeItem(item));
       return {
         ...state,
@@ -26,22 +27,50 @@ const reducer = (state = initialState, action) => {
         userEmail: null,
         userToken: null,
       };
+    }
 
-    case actionTypes.ADD_SERIES_LIST:
-      console.log('-- reducer ADD_SERIES_LIST --'); 
+    case actionTypes.ADD_SERIES_LIST: {
+      const seriesDetails = {};
+      action.seriesList.forEach(series => {
+        seriesDetails[series.seriesId] = {...state.seriesDetails[series.seriesId], ...series};
+      });
+
       return {
         ...state,
-        seriesList: action.seriesList
+        seriesList: action.seriesList,
+        seriesDetails
+      };
+    }
+
+    case actionTypes.ADD_SERIES_DETAIL: {
+      const { seriesData } = action;
+
+      const [series] = seriesData.filter(item => !item.bookId && !item.entryId);
+      const books = seriesData.filter(item => item.bookId && !item.entryId);
+      const entries = seriesData.filter(item => item.entryId);
+      const timeStamp = (new Date()).toISOString();
+
+      const seriesDetails = { ...state.seriesDetails };
+      seriesDetails[series.seriesId] = { 
+        ...state.seriesDetails[series.seriesId], 
+        ...series,
+        books,
+        entries,
+        timeStamp
       };
 
+      return {
+        ...state,
+        seriesDetails
+      };
+    }
+
     case actionTypes.FETCHING: 
-      if (action.isFetching === true || action.isFetching === false) {
-        if (state.isFetching !== action.isFetching) {
-          return {
-            ...state,
-            seriesList: action.seriesList
-          };
-        }
+      if (typeof action.isFetching === 'boolean') {
+        return {
+          ...state,
+          isFetching: action.isFetching
+        };
       }
 
       return state;

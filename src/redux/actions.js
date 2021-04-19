@@ -2,38 +2,75 @@ export const actionTypes = {
   SET_USER: 'SET_USER',
   LOGOUT_USER: 'LOGOUT_USER',
   ADD_SERIES_LIST: 'ADD_SERIES_LIST',
+  ADD_SERIES_DETAIL: 'ADD_SERIES_DETAIL',
   FETCHING: 'FETCHING'
 }
 
-//synchronous action creator
-const fetchSeriesListSuccess = body => ({
-  type: actionTypes.ADD_SERIES_LIST,
-  seriesList: body
-})
+export const actionCreators = {
+  logoutUser: () => ({type: actionTypes.LOGOUT_USER}),
 
-/*asynchronous thunk action creator
-  calls the api, then dispatches the synchronous action creator
-*/
-export const fetchSeriesList =  () => {
-  return async dispatch => {
-    try {
-      dispatch({type: actionTypes.FETCHING, isFetching: true});
+  setUser: (user) => ({type: actionTypes.SET_USER, user}),
 
-      const response = await fetch('https://api.no-spoilers.net/series');
-      const body = await response.json();
+  setSeriesList: (seriesList) => ({type: actionTypes.ADD_SERIES_LIST, seriesList}),
+  
+  setFetchingStatus: (isFetching) => ({type: actionTypes.FETCHING, isFetching}),
 
-      dispatch({type: actionTypes.FETCHING, isFetching: false});
-
-      if (body && body.length > 0) {
-        dispatch(fetchSeriesListSuccess(body)) //redux first five posts
-      } else {
-        // todo: needs proper error handling
-        dispatch({type: actionTypes.ADD_SERIES_LIST, seriesList: ['error fetching']});  
+  fetchSeriesList: () => {
+    return async (dispatch) => {
+      try {
+        dispatch({type: actionTypes.FETCHING, isFetching: true});
+  
+        console.debug('Fetching: fetchSeriesList');
+        const response = await fetch('https://api.no-spoilers.net/series');
+        const body = await response.json();
+  
+        dispatch({type: actionTypes.FETCHING, isFetching: false});
+  
+        if (body && body.length > 0) {
+          dispatch(actionCreators.fetchSeriesListSuccess(body)) //redux first five posts
+        } else {
+          // todo: needs proper error handling
+          dispatch({type: actionTypes.ADD_SERIES_LIST, seriesList: ['error fetching']});  
+        }
+      } catch(e) {
+        console.log(e);
+        dispatch({type: actionTypes.FETCHING, isFetching: false});
       }
     }
-    catch(e){
-      console.log(e);
-      dispatch({type: actionTypes.FETCHING, isFetching: false});
+  },
+
+  fetchSeriesListSuccess: (seriesList) => ({
+    type: actionTypes.ADD_SERIES_LIST,
+    seriesList
+  }),
+
+  fetchSeriesDetail: (seriesId) => {
+    return async (dispatch) => {
+      try {
+        dispatch({type: actionTypes.FETCHING, isFetching: true});
+  
+        console.debug('Fetching: fetchSeriesDetail');
+        const response = await fetch(`https://api.no-spoilers.net/series/${seriesId}`);
+        const body = await response.json();
+    
+        if (body.error) {
+          console.error(body.error);
+          dispatch({type: actionTypes.FETCHING, isFetching: false});
+          return;
+        }
+  
+        dispatch(actionCreators.fetchSeriesDetailSuccess(body));
+        dispatch({type: actionTypes.FETCHING, isFetching: false});
+  
+      } catch(err) {
+        console.log('Error in fetchSeriesDetail:', err);
+        dispatch({type: actionTypes.FETCHING, isFetching: false});
+      }
     }
-  }
+  },
+  
+  fetchSeriesDetailSuccess: (seriesData) => ({
+    type: actionTypes.ADD_SERIES_DETAIL,
+    seriesData
+  })
 }

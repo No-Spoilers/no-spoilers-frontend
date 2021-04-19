@@ -1,54 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from "react-router-dom"
 import { reduxConnect } from '../../redux/tools';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
-  const [ state, setState ] = useState({
-    isFetching: false,
-    books: [],
-    entries: [],
-    seriesName: null
-  });
-
   const seriesId = useParams().id;
+  const seriesDetails = props.seriesDetails[seriesId];
+  const { timeStamp = null } = seriesDetails;
+  const { getSeriesDetail } = props;
 
-  const loadSeriesData = async (seriesId) => {
-    const response = await fetch(`https://api.no-spoilers.net/series/${seriesId}`);
-    const body = await response.json();
-    if (body.error) {
-      console.error(body.error);
-      setState({ ...state, isFetching: false, seriesName: 'Error Loading' });
-      return;
+  useEffect(() => {
+    if (!timeStamp) { // TODO: check age of timestamp
+      getSeriesDetail(seriesId);
     }
-
-    const series = body.filter(item => !item.bookId && !item.entryId) 
-    const books = body.filter(item => item.bookId && !item.entryId)
-    const entries = body.filter(item => item.entryId)
-
-    setState({
-      ...state,
-      isFetching: false,
-      books,
-      entries,
-      seriesName: series[0].name || 'Name not found'
-    });
-  }
-  
-  // TODO: check for data already in memory
-  if (!state.isFetching && !state.seriesName) {
-    setState({ ...state, isFetching: true });
-    loadSeriesData(seriesId);
-  }
+  }, [timeStamp, getSeriesDetail, seriesId])
 
   let books = <div>No Books Yet</div>;
   let entries = <div>No Entries Yet</div>;
 
-  if (state.books.length > 0) {
+  if (seriesDetails?.books?.length > 0) {
     books = (
       <div className="book-list">
-        <h2>Books in {state.seriesName}</h2>
-        {state.books.map(book => (
+        <h2>Books in {seriesDetails.seriesName}</h2>
+        {seriesDetails.books.map(book => (
           <div key={book.bookId} className="bullet">
             <div>{book.name}</div>
           </div>
@@ -58,8 +32,8 @@ const SeriesView = (props) => {
 
     entries = (
       <div className="entry-list">
-        <h2>Entries in {state.seriesName}</h2>
-        {state.entries.map(entry => (
+        <h2>Entries in {seriesDetails.seriesName}</h2>
+        {seriesDetails.entries.map(entry => (
           <div key={entry.entryId} className="bullet">
             <div>{entry.text} - {entry.createdBy} ({entry.createdAt})</div>
           </div>
@@ -72,7 +46,7 @@ const SeriesView = (props) => {
     <div className="series-view-container">
       
       <div>
-        <h1>Series: {state.seriesName}</h1>
+        <h1>Series: {seriesDetails?.name}</h1>
         {books}
         {entries}
       </div>
