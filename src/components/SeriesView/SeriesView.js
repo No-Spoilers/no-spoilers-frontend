@@ -5,8 +5,8 @@ import './SeriesView.css';
 
 const SeriesView = (props) => {
   const seriesId = useParams().id;
-  const seriesDetails = props.seriesDetails[seriesId];
-  const { timeStamp = null } = seriesDetails;
+  const seriesDetails = props.seriesDetails[seriesId] || {};
+  const { timeStamp } = seriesDetails;
   const { getSeriesDetail } = props;
 
   useEffect(() => {

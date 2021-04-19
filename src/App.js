@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import ContentFrame from './components/ContentFrame/ContentFrame';
 import NavigationFrame from './components/NavigationFrame/NavigationFrame';
+import { reduxConnect } from './redux/tools';
 
 
 const App = (props) => {
@@ -30,4 +31,4 @@ const App = (props) => {
   );
 }
 
-export default App;
+export default reduxConnect(App);
