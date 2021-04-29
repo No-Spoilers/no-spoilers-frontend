@@ -4,9 +4,8 @@
   display: flex;
 }
 
-
-
-a {
-  text-decoration: none;
-  color: inherit;
+.loading-banner {
+  background-color: bisque;
+  text-align: center;
+  height: 1.5rem;
 }

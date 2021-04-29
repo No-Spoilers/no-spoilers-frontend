@@ -21,12 +21,16 @@ const App = (props) => {
     }
   })
 
+  const fetchStatus = props.isFetching ? {} : {display: 'none'};
+
   return (
     <Router>
       <div className="App">
         <NavigationFrame />
         <ContentFrame />
       </div>
+      
+      <div className="loading-banner" style={fetchStatus}>&gt;&gt;&gt; REFRESHING DATA &lt;&lt;&lt;</div>
     </Router>
   );
 }
