@@ -15,8 +15,8 @@ const SeriesView = (props) => {
     }
   }, [timeStamp, getSeriesDetail, seriesId])
 
-  let books = <div>No Books Yet</div>;
-  let entries = <div>No Entries Yet</div>;
+  let books = (seriesDetails?.books?.length === 0) ? <div>No Books Yet</div> : <div></div>;
+  let entries = <div></div>;
 
   if (seriesDetails?.books?.length > 0) {
     books = (

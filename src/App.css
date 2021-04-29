@@ -1,7 +1,12 @@
 .App {
   width: 100%;
+  display: grid;
+  grid-template-columns: 33% 33% 34%;
+  grid-template-areas:
+  "header  header  header"
+  "navigation content content"
+  "footer  footer  footer";
 
-  display: flex;
 }
 
 .loading-banner {

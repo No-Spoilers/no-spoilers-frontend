@@ -1,0 +1,25 @@
+.header-frame {
+  grid-area: header;
+  
+  color: black;
+  background-color: tan;
+  height: 4rem;
+
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: center;
+}
+
+.page-name {
+  grid-column: 1;
+  padding: 0 2rem;
+}
+
+.account-info {
+  grid-column: 2;
+  padding: 0 2rem;
+  font: bold 1rem Verdana ;
+  text-align: right;
+  color: blue;
+  cursor: pointer;
+}

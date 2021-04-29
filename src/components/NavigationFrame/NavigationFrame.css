@@ -1,9 +1,6 @@
 .navigation-frame {
-  flex-direction: column;
-  justify-content: center;
-  
-  flex: 1;
-  display: flex;
+  grid-area: navigation;
+
 }
 
 .title-box {
@@ -13,7 +10,7 @@
   text-align: left;
   
   color: black;
-  background-color: purple;
+  background-color: tomato;
   border-radius: 5px;
 }
 
@@ -21,23 +18,11 @@
   padding: 0.5rem;
   margin: 1rem;
   font-size: 2rem;
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   
   color: black;
-  background-color: cadetblue;
   border-radius: 5px;
 }
 
-.account-info {
-  padding: 0.1rem 0.5rem;
-  margin: 1rem;
-  font: bold 1rem Verdana ;
-  text-align: center;
-  
-  color: black;
-  background-color: green;
-  border-radius: 5px;
-  cursor: pointer;
-}
 

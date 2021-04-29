@@ -8,6 +8,7 @@ import SignupPage from '../SignupPage/SignupPage';
 import AddSeries from '../AddSeries/AddSeries';
 import SeriesView from '../SeriesView/SeriesView';
 import './ContentFrame.css';
+import HomePage from '../HomePage/HomePage';
 
 const ContentFrame = (props) => {
   return (
@@ -39,6 +40,10 @@ const ContentFrame = (props) => {
 
         <Route path="/:id">
           <SeriesView />
+        </Route>
+
+        <Route path="/">
+          <HomePage />
         </Route>
       </Switch>
 
