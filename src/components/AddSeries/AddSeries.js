@@ -98,59 +98,56 @@ const AddSeries = (props) => {
   }
 
   return (
-      <div className="login-container">
+    <div className="add-series-container">
+      
+      <h1 className="add-series-title">Add New Series</h1>
+      
+      <form className="form-box" onSubmit={submitButtonHandler}>
+        <label htmlFor="name"><b>Series Name</b></label>
+        <input 
+          name="name" 
+          type="text" 
+          placeholder="Enter Series Name" 
+          autoComplete="off"
+          className={state.nameFieldClass}
+          onBlur={validateName}
+          value={state.name}
+          onChange={(e) => setState({...state, name:e.target.value})}
+          disabled={state.fieldsDisabled}
+          required 
+          autoFocus 
+        />
+
+        <label htmlFor="description"><b>Brief Description</b></label>
+        <textarea  
+          name="description" 
+          type="text" 
+          placeholder="Enter Description" 
+          className={state.descriptionFieldClass}
+          onBlur={validateDescription}
+          value={state.description}
+          onChange={(e) => setState({...state, description:e.target.value})}
+          disabled={state.fieldsDisabled}
+          required 
+        />
+
+        <button 
+          type="submit"
+          onClick={submitButtonHandler} 
+          className="submit-button"
+          disabled={!validateForm()}
+        >Submit</button>
         
-        <div className="login-login-tab">Add New Series</div>  
-        
-        <form className="form-box" onSubmit={submitButtonHandler}>
-          <label htmlFor="name"><b>Series Name</b></label>
-          <input 
-            name="name" 
-            type="text" 
-            placeholder="Enter Series Name" 
-            autoComplete="off"
-            className={state.nameFieldClass}
-            onBlur={validateName}
-            value={state.name}
-            onChange={(e) => setState({...state, name:e.target.value})}
-            disabled={state.fieldsDisabled}
-            required 
-            autoFocus 
-          />
-  
-          <label htmlFor="description"><b>Brief Description</b></label>
-          <textarea  
-            name="description" 
-            type="text" 
-            placeholder="Enter Description" 
-            className={state.descriptionFieldClass}
-            onBlur={validateDescription}
-            value={state.description}
-            onChange={(e) => setState({...state, description:e.target.value})}
-            disabled={state.fieldsDisabled}
-            required 
-          />
+        <button 
+          type="reset"
+          onClick={cancelButtonHandler} 
+          className="cancel-button"
+        >Cancel</button>
 
-          <button 
-            type="submit"
-            onClick={submitButtonHandler} 
-            className="login-button"
-            disabled={!validateForm()}
-          >Submit</button>
-          
-          <button 
-            type="reset"
-            onClick={cancelButtonHandler} 
-            className="cancel-button"
-          >Cancel</button>
-
-          {state.submitting ? <div className="login-fail">SENDING DATA</div> : null}
-          {state.submitFail ? <div className="login-fail">Error: {state.submitFail}</div> : null}
-        </form>
-
-
-      </div>
-
+        {state.submitting ? <div className="login-fail">SENDING DATA</div> : null}
+        {state.submitFail ? <div className="login-fail">Error: {state.submitFail}</div> : null}
+      </form>
+    </div>
   )
 }
 
