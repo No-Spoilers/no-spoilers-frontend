@@ -23,6 +23,8 @@ export const actionCreators = {
         console.debug('Fetching: fetchSeriesList');
         const response = await fetch('https://api.no-spoilers.net/series');
         const body = await response.json();
+
+        console.log('Series list:', body);
   
         dispatch({type: actionTypes.FETCHING, isFetching: false});
   
@@ -52,6 +54,8 @@ export const actionCreators = {
         console.debug('Fetching: fetchSeriesDetail');
         const response = await fetch(`https://api.no-spoilers.net/series/${seriesId}`);
         const body = await response.json();
+
+        console.log(`Details for series ${seriesId}:`, body);
     
         if (body.error) {
           console.error(body.error);
