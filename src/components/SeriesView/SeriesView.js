@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom"
 import dateFormat from '../../lib/dateFormat';
 import { reduxConnect } from '../../redux/tools';
+import AddBookForm from '../AddBookForm/AddBookForm';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
+  const [addBookOpen, setAddBookOpen] = useState(false);
   const seriesId = useParams().id;
   const seriesDetails = props.seriesDetails[seriesId] || {};
   const { timeStamp } = seriesDetails;
@@ -32,11 +34,23 @@ const SeriesView = (props) => {
     );
   }
 
+  function toggleAddBook() {
+    setAddBookOpen(!addBookOpen);
+  }
+
+  let addBookForm = <div onClick={toggleAddBook}>Add Book</div>;
+
+  if (addBookOpen) {
+    addBookForm = <AddBookForm cancel={toggleAddBook} seriesId={seriesId} />
+  }
+
   return (
     <div className="series-view-container">
       <h1>Series: {seriesDetails?.name}</h1>
       <p className="series-description">{seriesDetails.text}</p>
       {books}
+
+      {addBookForm}
     </div>
   );
 

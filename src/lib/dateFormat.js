@@ -1,4 +1,5 @@
 const month = [
+  '',
   'Jan',
   'Feb',
   'Mar',
@@ -14,9 +15,14 @@ const month = [
 ]
 
 export default function dateFormat(isoDate) {
-  if (!isoDate) return null;
+  if (!isoDate || typeof isoDate !== 'string') return null;
 
-  const date = new Date(isoDate);
-
-  return `${month[date.getMonth()]} ${date.getFullYear()}`;
+  try {
+    const splitResult = isoDate.split('-');
+  
+    return `${month[parseInt(splitResult[1])]} ${splitResult[0]}`;
+  } catch(e) {
+    console.error(e);
+    return null;
+  }
 }
