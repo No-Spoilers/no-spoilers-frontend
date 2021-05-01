@@ -95,25 +95,17 @@ export const actionCreators = {
           "Authorization": `Bearer ${localStorage.getItem('token')}`
         };
   
-        console.log('headers:', headers);
-        console.log('data:', data);
-
-        console.log('Fetching: postNewBook');
+        console.debug('Fetching: postNewBook');
   
         const response = await fetch('https://api.no-spoilers.net/book', {
           method: "POST",
           body: JSON.stringify(data),
           headers
         });
-
-        console.log('response:', response);
-
-        
+       
         if (response.status === 201) {
           const responseBody = await response.json();
   
-          console.log('responseBody:', responseBody);
-
           dispatch(actionCreators.postNewBookSuccess(responseBody));
           dispatch({type: actionTypes.FETCHING, isFetching: false});
           return { success: true };
@@ -126,7 +118,7 @@ export const actionCreators = {
         }
   
       } catch(err) {
-        console.log('Error in fetchSeriesDetail:', err);
+        console.error('Error in fetchSeriesDetail:', err);
         dispatch({type: actionTypes.FETCHING, isFetching: false});
         return { error: err };
       }
