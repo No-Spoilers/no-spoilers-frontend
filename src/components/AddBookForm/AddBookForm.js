@@ -47,6 +47,7 @@ const AddBookForm = (props) => {
           fieldsDisabled: false,
           submitting: false
         });
+        document.getElementById('first-input').focus();
       } else {
         console.error(result.error);
         throw new Error('Unexpected response from server')
@@ -74,6 +75,7 @@ const AddBookForm = (props) => {
           <input 
             type="text"
             name="title"
+            id="first-input"
             placeholder="Enter Book Name"
             autoComplete="off"
             className="add-book-title"
