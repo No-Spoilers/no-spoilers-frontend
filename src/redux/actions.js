@@ -3,7 +3,8 @@ export const actionTypes = {
   LOGOUT_USER: 'LOGOUT_USER',
   ADD_SERIES_LIST: 'ADD_SERIES_LIST',
   ADD_SERIES_DETAIL: 'ADD_SERIES_DETAIL',
-  FETCHING: 'FETCHING'
+  FETCHING: 'FETCHING',
+  ADD_NEW_BOOK: 'ADD_NEW_BOOK'
 }
 
 export const actionCreators = {
@@ -76,5 +77,64 @@ export const actionCreators = {
   fetchSeriesDetailSuccess: (seriesData) => ({
     type: actionTypes.ADD_SERIES_DETAIL,
     seriesData
+  }),
+
+  postNewBook: (bookData) => {
+    return async (dispatch) => {
+      try {
+        dispatch({type: actionTypes.FETCHING, isFetching: true});
+
+        const data = {
+          seriesId: bookData.seriesId,
+          name: bookData.name,
+          pubDate: bookData.pubDate
+        }
+
+        const headers = {
+          "Content-type": "application/json;charset=UTF-8",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        };
+  
+        console.log('headers:', headers);
+        console.log('data:', data);
+
+        console.log('Fetching: postNewBook');
+  
+        const response = await fetch('https://api.no-spoilers.net/book', {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers
+        });
+
+        console.log('response:', response);
+
+        
+        if (response.status === 201) {
+          const responseBody = await response.json();
+  
+          console.log('responseBody:', responseBody);
+
+          dispatch(actionCreators.postNewBookSuccess(responseBody));
+          dispatch({type: actionTypes.FETCHING, isFetching: false});
+          return { success: true };
+        }
+    
+        if (response.error) {
+          console.error(response.error);
+          dispatch({type: actionTypes.FETCHING, isFetching: false});
+          return { error: response.error };
+        }
+  
+      } catch(err) {
+        console.log('Error in fetchSeriesDetail:', err);
+        dispatch({type: actionTypes.FETCHING, isFetching: false});
+        return { error: err };
+      }
+    }
+  },
+  
+  postNewBookSuccess: (bookData) => ({
+    type: actionTypes.ADD_NEW_BOOK,
+    bookData
   })
 }

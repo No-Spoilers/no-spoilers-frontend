@@ -65,7 +65,24 @@ const reducer = (state = initialState, action) => {
       };
     }
 
-    case actionTypes.FETCHING: 
+    case actionTypes.ADD_NEW_BOOK: {
+      const bookData = action.bookData;
+      const seriesDetails = {...state.seriesDetails};
+      seriesDetails[bookData.seriesId] = {
+        ...seriesDetails[bookData.seriesId]
+      };
+      seriesDetails[bookData.seriesId].books = [
+        ...seriesDetails[bookData.seriesId].books,
+        bookData
+      ];
+
+      return {
+        ...state,
+        seriesDetails
+      };
+    }
+
+    case actionTypes.FETCHING: {
       if (typeof action.isFetching === 'boolean') {
         return {
           ...state,
@@ -74,6 +91,7 @@ const reducer = (state = initialState, action) => {
       }
 
       return state;
+    }
 
     default: 
       return state;

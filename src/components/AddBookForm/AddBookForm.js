@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { reduxConnect } from '../../redux/tools';
 import './AddBookForm.css';
 
 const AddBookForm = (props) => {
   const [state,setState] = useState({
     title: '',
-    publicationDate: '',
+    pubDate: '',
     description: '',
     fieldsDisabled: false,
     submitting: false,
     submitFail: null
   });
+
+  const { postNewBook } = props;
   
   const submitButtonHandler = async (e) => {
     e.preventDefault();
@@ -23,46 +26,29 @@ const AddBookForm = (props) => {
       });
 
       //validate
-      if (!props.seriesId || state.title.length < 1 || state.publicationDate.length < 1) {
+      if (!props.seriesId || state.title.length < 1 || state.pubDate.length < 1) {
         throw new Error('Invalid data. Please fill all required fields.');
       }
       
-      const data = {
-        // TODO
+      const bookData = {
         seriesId: props.seriesId,
         name: state.title,
-        pubDate: state.publicationDate
+        pubDate: state.pubDate
       }
 
-      const headers = {
-        "Content-type": "application/json;charset=UTF-8",
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-      };
-
-      console.log('headers:', headers);
-      console.log('data:', data);
-  
-      const result = await fetch('https://api.no-spoilers.net/book', {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers
-      });
-
-      const responseBody = await result.json();
-
-      if (result.status === 201) {
+      const result = await postNewBook(bookData);
+     
+      if (result.success) {
         setState({
           ...state,
           title: '',
+          pubDate: '',
           description: '',
           fieldsDisabled: false,
           submitting: false
         });
-
-        // TODO: Send new data directly to redux
-
       } else {
-        console.error(responseBody);
+        console.error(result.error);
         throw new Error('Unexpected response from server')
       }
     } catch (err) {
@@ -74,7 +60,6 @@ const AddBookForm = (props) => {
         submitting: false
       })
     }
-  
   }
 
   const cancelButtonHandler = () => {
@@ -105,7 +90,7 @@ const AddBookForm = (props) => {
             name="publicationDate"
             className="add-book-description"
             value={state.pubDate}
-            onChange={(e) => setState({...state, publicationDate:e.target.value})}
+            onChange={(e) => setState({...state, pubDate:e.target.value})}
             disabled={state.fieldsDisabled}
             required
           />
@@ -124,7 +109,7 @@ const AddBookForm = (props) => {
           <button 
             type="submit"
             onClick={submitButtonHandler} 
-            className="login-button"
+            className="submit-button"
           >Submit</button>
           
           <button 
@@ -133,14 +118,11 @@ const AddBookForm = (props) => {
             className="cancel-button"
           >Cancel</button>
 
-          {state.submitting ? <div className="login-fail">SENDING DATA</div> : null}
-          {state.submitFail ? <div className="login-fail">{state.submitFail}</div> : null}
+          {state.submitting ? <div className="submitting-data">SENDING DATA</div> : null}
+          {state.submitFail ? <div className="submit-fail">{state.submitFail}</div> : null}
         </form>
-
-
       </div>
-
   )
 }
 
-export default AddBookForm;
+export default reduxConnect(AddBookForm);

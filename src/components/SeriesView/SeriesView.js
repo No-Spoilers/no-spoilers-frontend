@@ -38,7 +38,7 @@ const SeriesView = (props) => {
     setAddBookOpen(!addBookOpen);
   }
 
-  let addBookForm = <div onClick={toggleAddBook}>Add Book</div>;
+  let addBookForm = <button className="add-book-button" onClick={toggleAddBook}>Add Book</button>;
 
   if (addBookOpen) {
     addBookForm = <AddBookForm cancel={toggleAddBook} seriesId={seriesId} />

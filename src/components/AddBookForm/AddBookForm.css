@@ -13,3 +13,35 @@
   box-sizing: border-box;
   overflow: auto;
 }
+
+.add-book-container .submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.add-book-container .cancel-button {
+  background-color: #858a85;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.add-book-container .submitting-data {
+  color: green;
+  text-align: center;
+  padding: 1rem;
+}
+
+.add-book-container .submit-fail {
+  color: red;
+  text-align: center;
+  padding: 1rem;
+}
