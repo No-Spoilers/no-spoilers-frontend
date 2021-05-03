@@ -16,6 +16,23 @@
   margin-left: 1rem;
 }
 
+.series-view-container .book-line-item {
+  display: inline-flex;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+}
+
+.series-view-container .book-line-item:hover {
+  background-color:burlywood;
+}
+
+.series-view-container .book-line-item input {
+  width: 3rem;
+  cursor: pointer;
+  margin: 0.4rem 0;
+}
+
 .series-view-container .book-title {
   font-weight: bold;
 }
@@ -24,17 +41,8 @@
   font-style: italic;
 }
 
-.series-view-container .checkbox {
-  display: inline-flex;
-  cursor: pointer;
-  position: relative;
-  width: 100%;
-}
+.series-view-container .checkbox-label {
 
-.series-view-container .checkbox input {
-  width: 3rem;
-  cursor: pointer;
-  margin: 0.4rem 0;
 }
 
 .series-view-container .add-book-button {

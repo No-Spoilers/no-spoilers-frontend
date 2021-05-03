@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import dateFormat from '../../lib/dateFormat';
 import { reduxConnect } from '../../redux/tools';
 import AddBookForm from '../AddBookForm/AddBookForm';
@@ -18,17 +18,41 @@ const SeriesView = (props) => {
     }
   }, [timeStamp, getSeriesDetail, seriesId])
 
+  const handleCheckBox = (e) => {
+    // TODO
+  }
+
+  const sortByTimestamp = (sortOrder) => {
+    // sortOrder: 1 for high to low, or -1 for low to high
+    return (a,b) => {
+      const el1 = new Date(a.pubDate)
+      const el2 = new Date(b.pubDate);
+
+      return sortOrder * (el2 - el1);
+    }
+  }
+
   let books = (seriesDetails?.books?.length === 0) ? <div>No Books Yet</div> : <div></div>;
 
+  const sortOrder = -1; // TODO: make UI toggle for sortOrder
+
   if (seriesDetails?.books?.length > 0) {
-    books = seriesDetails.books.map((book, index) => (
-      <div key={book.bookId}>
-        <label className="checkbox">
-          <input type="checkbox" id={index} name={book.name} value={book.pubDate} />
-          <span className='book-title'>{book.name}</span>
-          <span>&nbsp;-&nbsp;</span>
-          <span className='book-date'>{dateFormat(book.pubDate)}</span>
-        </label>
+    books = seriesDetails.books.sort(sortByTimestamp(sortOrder)).map((book, index) => (
+      <div className="book-line-item" key={book.bookId}>
+        <input
+          type="checkbox"
+          id={index}
+          name={book.name}
+          value={book.checked}
+          onChange={handleCheckBox}
+        />
+        <div className="checkbox-label">
+          <Link to={`/${book.bookId}`}>
+            <span className='book-title'>{book.name}</span>
+            <span>&nbsp;-&nbsp;</span>
+            <span className='book-date'>{dateFormat(book.pubDate)}</span>
+          </Link>
+        </div>
       </div>
       )
     );
@@ -46,7 +70,7 @@ const SeriesView = (props) => {
 
   return (
     <div className="series-view-container">
-      <h1>Series: {seriesDetails?.name}</h1>
+      <h1>{seriesDetails?.name}</h1>
       <p className="series-description">{seriesDetails.text}</p>
       {books}
 
