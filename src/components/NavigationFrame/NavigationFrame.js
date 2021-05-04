@@ -12,7 +12,7 @@ const NavigationFrame = (props) => (
 
     <div className="nav-button-box">
       <Link to='/'><div className="nav-option">Home</div></Link>
-      <Link to='browse'><div className="nav-option">Browse</div></Link>
+      <Link to='/browse'><div className="nav-option">Browse</div></Link>
     </div>
   </div>
 )

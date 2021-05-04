@@ -46,8 +46,21 @@ const reducer = (state = initialState, action) => {
       const { seriesData } = action;
 
       const [series] = seriesData.filter(item => !item.bookId && !item.entryId);
-      const books = seriesData.filter(item => item.bookId && !item.entryId);
-      const entries = seriesData.filter(item => item.entryId);
+
+      const books = seriesData
+        .filter(item => item.bookId && !item.entryId)
+        .reduce((acc, item) => {
+          acc[item.bookId] = item;
+          return acc;
+        }, {});
+
+      const entries = seriesData
+        .filter(item => item.entryId)
+        .reduce((acc, item) => {
+          acc[item.entryId] = item;
+          return acc;
+        }, {});
+
       const timeStamp = (new Date()).toISOString();
 
       const seriesDetails = { ...state.seriesDetails };
@@ -67,14 +80,14 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_BOOK: {
       const bookData = action.bookData;
-      const seriesDetails = {...state.seriesDetails};
+      const seriesDetails = { ...state.seriesDetails };
       seriesDetails[bookData.seriesId] = {
         ...seriesDetails[bookData.seriesId]
       };
-      seriesDetails[bookData.seriesId].books = [
-        ...seriesDetails[bookData.seriesId].books,
-        bookData
-      ];
+      seriesDetails[bookData.seriesId].books = {
+        ...seriesDetails[bookData.seriesId].books
+      };
+      seriesDetails[bookData.seriesId].books[bookData.bookId] = bookData;
 
       return {
         ...state,

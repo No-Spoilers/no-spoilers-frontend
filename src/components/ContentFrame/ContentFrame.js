@@ -9,6 +9,7 @@ import AddSeries from '../AddSeries/AddSeries';
 import SeriesView from '../SeriesView/SeriesView';
 import './ContentFrame.css';
 import HomePage from '../HomePage/HomePage';
+import BookView from '../BookView/BookView';
 
 const ContentFrame = (props) => {
   return (
@@ -38,7 +39,11 @@ const ContentFrame = (props) => {
           <h1>Search Frame Here</h1>
         </Route>
 
-        <Route path="/:id">
+        <Route path="/:seriesId/:contentId">
+          <BookView />
+        </Route>
+
+        <Route path="/:seriesId">
           <SeriesView />
         </Route>
 

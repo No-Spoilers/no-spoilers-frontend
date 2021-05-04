@@ -6,11 +6,11 @@ import AddBookForm from '../AddBookForm/AddBookForm';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
-  const [addBookOpen, setAddBookOpen] = useState(false);
-  const seriesId = useParams().id;
+  const [addBookOpen, setAddBookOpen] = useState(false);  
+  const seriesId = useParams().seriesId;
+  const { getSeriesDetail } = props;
   const seriesDetails = props.seriesDetails[seriesId] || {};
   const { timeStamp } = seriesDetails;
-  const { getSeriesDetail } = props;
 
   useEffect(() => {
     if (!timeStamp) { // TODO: check age of timestamp
@@ -32,30 +32,35 @@ const SeriesView = (props) => {
     }
   }
 
-  let books = (seriesDetails?.books?.length === 0) ? <div>No Books Yet</div> : <div></div>;
+  let books = null;
 
   const sortOrder = -1; // TODO: make UI toggle for sortOrder
 
-  if (seriesDetails?.books?.length > 0) {
-    books = seriesDetails.books.sort(sortByTimestamp(sortOrder)).map((book, index) => (
-      <div className="book-line-item" key={book.bookId}>
-        <input
-          type="checkbox"
-          id={index}
-          name={book.name}
-          value={book.checked}
-          onChange={handleCheckBox}
-        />
-        <div className="checkbox-label">
-          <Link to={`/${book.bookId}`}>
-            <span className='book-title'>{book.name}</span>
-            <span>&nbsp;-&nbsp;</span>
-            <span className='book-date'>{dateFormat(book.pubDate)}</span>
-          </Link>
+  if (seriesDetails?.books) {
+    books = Object.values(seriesDetails.books)
+      .sort(sortByTimestamp(sortOrder))
+      .map((book, index) => (
+        <div className="book-line-item" key={book.bookId}>
+          <input
+            type="checkbox"
+            id={index}
+            name={book.name}
+            value={book.checked}
+            onChange={handleCheckBox}
+          />
+          <div className="checkbox-label">
+            <Link to={`/${seriesId}/${book.bookId}`}>
+              <span className='book-title'>{book.name}</span>
+              <span>&nbsp;-&nbsp;</span>
+              <span className='book-date'>{dateFormat(book.pubDate)}</span>
+            </Link>
+          </div>
         </div>
-      </div>
-      )
-    );
+      ));
+  }
+
+  if (books?.length < 1) {
+    books = <div>No Books Yet</div>
   }
 
   function toggleAddBook() {
