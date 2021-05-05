@@ -87,7 +87,8 @@ export const actionCreators = {
         const data = {
           seriesId: bookData.seriesId,
           name: bookData.name,
-          pubDate: bookData.pubDate
+          pubDate: bookData.pubDate,
+          text: bookData.text
         }
 
         const headers = {
@@ -118,7 +119,7 @@ export const actionCreators = {
         }
   
       } catch(err) {
-        console.error('Error in fetchSeriesDetail:', err);
+        console.error('Error in postNewBook:', err);
         dispatch({type: actionTypes.FETCHING, isFetching: false});
         return { error: err };
       }
@@ -126,6 +127,59 @@ export const actionCreators = {
   },
   
   postNewBookSuccess: (bookData) => ({
+    type: actionTypes.ADD_NEW_BOOK,
+    bookData
+  }),
+
+  putBook: (bookData) => {
+    return async (dispatch) => {
+      try {
+        dispatch({type: actionTypes.FETCHING, isFetching: true});
+
+        const data = {
+          seriesId: bookData.seriesId,
+          bookId: bookData.bookId,
+          name: bookData.name,
+          pubDate: bookData.pubDate,
+          text: bookData.text
+        }
+
+        const headers = {
+          "Content-type": "application/json;charset=UTF-8",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        };
+  
+        console.debug('Fetching: putBook');
+  
+        const response = await fetch('https://api.no-spoilers.net/book', {
+          method: "PUT",
+          body: JSON.stringify(data),
+          headers
+        });
+       
+        if (response.status === 200) {
+          const responseBody = await response.json();
+  
+          dispatch(actionCreators.putBookSuccess(responseBody));
+          dispatch({type: actionTypes.FETCHING, isFetching: false});
+          return { success: true };
+        }
+    
+        if (response.error) {
+          console.error(response.error);
+          dispatch({type: actionTypes.FETCHING, isFetching: false});
+          return { error: response.error };
+        }
+  
+      } catch(err) {
+        console.error('Error in putBook:', err);
+        dispatch({type: actionTypes.FETCHING, isFetching: false});
+        return { error: err };
+      }
+    }
+  },
+  
+  putBookSuccess: (bookData) => ({
     type: actionTypes.ADD_NEW_BOOK,
     bookData
   })

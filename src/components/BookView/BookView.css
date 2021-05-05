@@ -1,0 +1,29 @@
+.book-view-container {
+  width: 90%;
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid black;
+  background-color: wheat;
+}
+
+.book-view-container .book-title {
+  margin: 1rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.book-view-container .book-published-date {
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.book-view-container .book-short-description {
+  margin: 2rem 1rem;
+  padding: 1rem;
+  border: 1px solid black;
+  background-color: antiquewhite;
+}
+
+.book-view-container .edit-button {
+  color: blue;
+}

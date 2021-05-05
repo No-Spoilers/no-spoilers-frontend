@@ -3,16 +3,17 @@ import { reduxConnect } from '../../redux/tools';
 import './AddBookForm.css';
 
 const AddBookForm = (props) => {
+  const { postNewBook, putBook } = props;
+  const seriesId = props.seriesId || props.book?.seriesId;
+
   const [state,setState] = useState({
-    title: '',
-    pubDate: '',
-    description: '',
+    title: props.book?.name || '',
+    pubDate: props.book?.pubDate.slice(0,10) || '',
+    description: props.book?.text || '',
     fieldsDisabled: false,
     submitting: false,
     submitFail: null
   });
-
-  const { postNewBook } = props;
   
   const submitButtonHandler = async (e) => {
     e.preventDefault();
@@ -26,17 +27,27 @@ const AddBookForm = (props) => {
       });
 
       //validate
-      if (!props.seriesId || state.title.length < 1 || state.pubDate.length < 1) {
+      if (!seriesId || state.title.length < 1 || state.pubDate.length < 1) {
+        console.log('state:', state);
         throw new Error('Invalid data. Please fill all required fields.');
       }
       
       const bookData = {
-        seriesId: props.seriesId,
+        seriesId,
+        bookId: props.book?.bookId,
         name: state.title,
-        pubDate: state.pubDate
+        pubDate: state.pubDate,
+        text: state.description
       }
 
-      const result = await postNewBook(bookData);
+      let result;
+
+      if (props.book?.name) {
+        result = await putBook(bookData);
+      } else {
+        result = await postNewBook(bookData);
+      }
+
      
       if (result.success) {
         setState({
@@ -47,6 +58,11 @@ const AddBookForm = (props) => {
           fieldsDisabled: false,
           submitting: false
         });
+
+        if (props.book?.name) {
+          return props.cancel();
+        }
+
         document.getElementById('first-input').focus();
       } else {
         console.error(result.error);
@@ -69,9 +85,9 @@ const AddBookForm = (props) => {
 
   return (
       <div className="add-book-container">
-        
         <form className="form-box" onSubmit={submitButtonHandler}>
-          <label htmlFor="title"><b>Add Book Title</b></label>
+        <h1>{props.book?.name ? "Edit" : "Add"} Book</h1>
+          <label htmlFor="title"><b>Title</b></label>
           <input 
             type="text"
             name="title"
