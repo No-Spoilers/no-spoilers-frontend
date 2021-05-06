@@ -131,14 +131,12 @@ export const actionCreators = {
     bookData
   }),
 
-  putBook: (bookData) => {
+  updateBook: (bookData) => {
     return async (dispatch) => {
       try {
         dispatch({type: actionTypes.FETCHING, isFetching: true});
 
         const data = {
-          seriesId: bookData.seriesId,
-          bookId: bookData.bookId,
           name: bookData.name,
           pubDate: bookData.pubDate,
           text: bookData.text
@@ -149,37 +147,39 @@ export const actionCreators = {
           "Authorization": `Bearer ${localStorage.getItem('token')}`
         };
   
-        console.debug('Fetching: putBook');
+        console.log('Fetching: updateBook');
   
-        const response = await fetch('https://api.no-spoilers.net/book', {
-          method: "PUT",
+        const response = await fetch(`https://api.no-spoilers.net/book/${bookData.bookId}/series/${bookData.seriesId}`, {
+          method: "PATCH",
           body: JSON.stringify(data),
           headers
         });
-       
+
         if (response.status === 200) {
           const responseBody = await response.json();
   
-          dispatch(actionCreators.putBookSuccess(responseBody));
+          dispatch(actionCreators.updateBookSuccess(responseBody));
           dispatch({type: actionTypes.FETCHING, isFetching: false});
           return { success: true };
-        }
-    
-        if (response.error) {
-          console.error(response.error);
+        } else if (response.error) {
+          console.error('response.error:', response.error);
           dispatch({type: actionTypes.FETCHING, isFetching: false});
           return { error: response.error };
+        } else {
+          console.error('unexpected reponse:', response);
+          const errorBody = await response.json();
+          console.error('body:', errorBody);
         }
   
       } catch(err) {
-        console.error('Error in putBook:', err);
+        console.error('Error in updateBook:', err);
         dispatch({type: actionTypes.FETCHING, isFetching: false});
         return { error: err };
       }
     }
   },
   
-  putBookSuccess: (bookData) => ({
+  updateBookSuccess: (bookData) => ({
     type: actionTypes.ADD_NEW_BOOK,
     bookData
   })

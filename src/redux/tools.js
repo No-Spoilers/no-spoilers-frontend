@@ -15,7 +15,7 @@ const matchDispatchToProps = dispatch => {
     signalFetching: (isFetching) => dispatch(actionCreators.setFetchingStatus(isFetching)),
     getSeriesDetail: (seriesId) => dispatch(actionCreators.fetchSeriesDetail(seriesId)),
     postNewBook: (bookData) => dispatch(actionCreators.postNewBook(bookData)),
-    putBook: (bookData) => dispatch(actionCreators.putBook(bookData))
+    updateBook: (bookData) => dispatch(actionCreators.updateBook(bookData))
   }
 }
 

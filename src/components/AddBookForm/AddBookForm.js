@@ -3,7 +3,7 @@ import { reduxConnect } from '../../redux/tools';
 import './AddBookForm.css';
 
 const AddBookForm = (props) => {
-  const { postNewBook, putBook } = props;
+  const { postNewBook, updateBook } = props;
   const seriesId = props.seriesId || props.book?.seriesId;
 
   const [state,setState] = useState({
@@ -43,13 +43,12 @@ const AddBookForm = (props) => {
       let result;
 
       if (props.book?.name) {
-        result = await putBook(bookData);
+        result = await updateBook(bookData);
       } else {
         result = await postNewBook(bookData);
       }
 
-     
-      if (result.success) {
+      if (result?.success) {
         setState({
           ...state,
           title: '',
