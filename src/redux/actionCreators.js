@@ -1,11 +1,4 @@
-export const actionTypes = {
-  SET_USER: 'SET_USER',
-  LOGOUT_USER: 'LOGOUT_USER',
-  ADD_SERIES_LIST: 'ADD_SERIES_LIST',
-  ADD_SERIES_DETAIL: 'ADD_SERIES_DETAIL',
-  FETCHING: 'FETCHING',
-  ADD_NEW_BOOK: 'ADD_NEW_BOOK'
-}
+import actionTypes from "./actionTypes";
 
 export const actionCreators = {
   logoutUser: () => ({type: actionTypes.LOGOUT_USER}),

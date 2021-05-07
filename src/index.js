@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { actionCreators } from './redux/actions'
+import actionCreators from './redux/actionCreators';
 
 store.dispatch(actionCreators.fetchSeriesList())
 
