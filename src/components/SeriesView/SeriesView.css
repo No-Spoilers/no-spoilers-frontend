@@ -6,8 +6,24 @@
   background-color: wheat;
 }
 
-.series-view-container h1 {
-  margin-bottom: 1rem;
+.series-view-header-container {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.series-view-container .series-view-header-title {
+  flex: 1;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.series-view-container .series-edit-button {
+  background-color: thistle;
+  text-align: center;
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 7px;
 }
 
 .series-view-container .series-description {

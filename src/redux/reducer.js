@@ -78,6 +78,21 @@ const reducer = (state = initialState, action) => {
       };
     }
 
+    case actionTypes.UPDATE_SERIES_DETAIL: {
+      const { seriesData } = action;
+
+      const seriesDetails = { ...state.seriesDetails };
+      seriesDetails[seriesData.seriesId] = {
+        ...seriesDetails[seriesData.seriesId],
+        ...seriesData
+      };
+
+      return {
+        ...state,
+        seriesDetails
+      };
+    }
+
     case actionTypes.UPDATE_BOOK_DETAIL: {
       const bookData = action.bookData;
       const seriesDetails = { ...state.seriesDetails };

@@ -3,6 +3,8 @@ import fetchSeriesDetail from "./async/fetchSeriesDetail";
 import fetchSeriesList from "./async/fetchSeriesList";
 import postNewBook from "./async/postNewBook";
 import updateBook from "./async/updateBook";
+import postNewSeries from "./async/postNewSeries";
+import updateSeries from "./async/updateSeries";
 
 const actionCreators = {
   logoutUser: () => ({type: actionTypes.LOGOUT_USER}),
@@ -25,9 +27,12 @@ const actionCreators = {
     seriesEntries
   }),
 
+  postNewSeries,
+
+  updateSeries,
   
-  fetchSeriesDetailSuccess: (seriesData) => ({
-    type: actionTypes.ADD_SERIES_DETAIL,
+  updateSeriesDetails: (seriesData) => ({
+    type: actionTypes.UPDATE_SERIES_DETAIL,
     seriesData
   }),
 

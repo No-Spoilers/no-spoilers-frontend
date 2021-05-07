@@ -3,14 +3,16 @@ import { Link, useParams } from "react-router-dom"
 import dateFormat from '../../lib/dateFormat';
 import { reduxConnect } from '../../redux/tools';
 import AddBookForm from '../AddBookForm/AddBookForm';
+import SeriesEditForm from '../AddSeries/SeriesEditForm';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
-  const [addBookOpen, setAddBookOpen] = useState(false);  
+  const [addBookOpen, setAddBookOpen] = useState(false);
+  const [editSeriesDetails, setEditSeriesDetails] = useState(false);
   const seriesId = useParams().seriesId;
   const { getSeriesDetail } = props;
-  const seriesDetails = props.seriesDetails[seriesId] || {};
-  const { timeStamp } = seriesDetails;
+  const thisSeries = props.seriesDetails[seriesId] || {};
+  const { timeStamp } = thisSeries;
 
   useEffect(() => {
     if (!timeStamp) { // TODO: check age of timestamp
@@ -20,6 +22,10 @@ const SeriesView = (props) => {
 
   const handleCheckBox = (e) => {
     // TODO
+  }
+
+  const toggleEditDetails = () => {
+    setEditSeriesDetails(!editSeriesDetails);
   }
 
   const sortByTimestamp = (sortOrder) => {
@@ -36,8 +42,8 @@ const SeriesView = (props) => {
 
   const sortOrder = -1; // TODO: make UI toggle for sortOrder
 
-  if (seriesDetails?.books) {
-    books = Object.values(seriesDetails.books)
+  if (thisSeries?.books) {
+    books = Object.values(thisSeries.books)
       .sort(sortByTimestamp(sortOrder))
       .map((book, index) => (
         <div className="book-line-item" key={book.bookId}>
@@ -73,10 +79,24 @@ const SeriesView = (props) => {
     addBookForm = <AddBookForm cancel={toggleAddBook} seriesId={seriesId} />
   }
 
+  let seriesHeader = (
+    <div className="series-detail-view">
+      <div className="series-view-header-container">
+        <div className="series-view-header-title">{thisSeries?.name}</div>
+        <div className="series-edit-button" onClick={toggleEditDetails}>Edit</div>
+      </div>
+      <p className="series-description">{thisSeries.text}</p>
+    </div>
+  )
+
+  if (editSeriesDetails) {
+    seriesHeader = <SeriesEditForm cancel={toggleEditDetails} thisSeries={thisSeries}  />
+  }
+
   return (
     <div className="series-view-container">
-      <h1>{seriesDetails?.name}</h1>
-      <p className="series-description">{seriesDetails.text}</p>
+      {seriesHeader}
+
       {books}
 
       {addBookForm}
