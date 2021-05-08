@@ -5,6 +5,8 @@ import postNewBook from "./async/postNewBook";
 import updateBook from "./async/updateBook";
 import postNewSeries from "./async/postNewSeries";
 import updateSeries from "./async/updateSeries";
+import setSpoilerLevel from "./async/setSpoilerLevel";
+import fetchUserLevels from "./async/fetchUserLevels";
 
 const actionCreators = {
   logoutUser: () => ({type: actionTypes.LOGOUT_USER}),
@@ -50,6 +52,14 @@ const actionCreators = {
     bookData
   }),
 
+  setSpoilerLevel,
+
+  fetchUserLevels,  
+
+  updateUserLevels: (userLevels) => ({
+    type: actionTypes.UPDATE_USER_LEVELS,
+    userLevels
+  }),
 }
 
 export default actionCreators;

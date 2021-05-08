@@ -6,7 +6,8 @@ const initialState = {
   userToken: null,
   isFetching: false,
   seriesList: [],
-  seriesDetails: {}
+  seriesDetails: {},
+  userSpoilerLevel: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -17,6 +18,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...action.user
       };
+    }
+
+    case actionTypes.UPDATE_USER_LEVELS: {
+      const { userLevels } = action;
+
+      const userSpoilerLevel = {
+        ...state.userSpoilerLevel,
+        ...userLevels
+      };
+
+      return {
+        ...state,
+        userSpoilerLevel
+      }
     }
 
     case actionTypes.LOGOUT_USER: {

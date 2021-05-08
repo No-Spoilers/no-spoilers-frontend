@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from "react-router-dom"
-import dateFormat from '../../lib/dateFormat';
+import { useParams } from "react-router-dom"
 import { reduxConnect } from '../../redux/tools';
 import AddBookForm from '../AddBookForm/AddBookForm';
 import SeriesEditForm from '../AddSeries/SeriesEditForm';
+import BookLineItem from './BookLineItem';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
-  const [addBookOpen, setAddBookOpen] = useState(false);
-  const [editSeriesDetails, setEditSeriesDetails] = useState(false);
   const seriesId = useParams().seriesId;
   const { getSeriesDetail } = props;
   const thisSeries = props.seriesDetails[seriesId] || {};
   const { timeStamp } = thisSeries;
+
+  const [addBookOpen, setAddBookOpen] = useState(false);
+  const [editSeriesDetails, setEditSeriesDetails] = useState(false);
 
   useEffect(() => {
     if (!timeStamp) { // TODO: check age of timestamp
@@ -20,8 +21,13 @@ const SeriesView = (props) => {
     }
   }, [timeStamp, getSeriesDetail, seriesId])
 
-  const handleCheckBox = (e) => {
-    // TODO
+  // Determine spoil date
+  const userSpoilerLevel = props.userSpoilerLevel[seriesId];
+  const spoilBook = thisSeries?.books?.[userSpoilerLevel] || {};
+  const spoilDate = spoilBook.pubDate;
+
+  const handleCheckBox = (bookData) => {
+    props.setSpoilerLevel(seriesId, bookData.bookId);
   }
 
   const toggleEditDetails = () => {
@@ -46,22 +52,13 @@ const SeriesView = (props) => {
     books = Object.values(thisSeries.books)
       .sort(sortByTimestamp(sortOrder))
       .map((book, index) => (
-        <div className="book-line-item" key={book.bookId}>
-          <input
-            type="checkbox"
-            id={index}
-            name={book.name}
-            value={book.checked}
-            onChange={handleCheckBox}
-          />
-          <div className="checkbox-label">
-            <Link to={`/${seriesId}/${book.bookId}`}>
-              <span className='book-title'>{book.name}</span>
-              <span>&nbsp;-&nbsp;</span>
-              <span className='book-date'>{dateFormat(book.pubDate)}</span>
-            </Link>
-          </div>
-        </div>
+        <BookLineItem
+          book={book}
+          index={index}
+          key={index}
+          handleCheckBox={handleCheckBox}
+          spoilDate={spoilDate}
+        />
       ));
   }
 

@@ -9,6 +9,7 @@ import store from './redux/store';
 import actionCreators from './redux/actionCreators';
 
 store.dispatch(actionCreators.fetchSeriesList())
+store.dispatch(actionCreators.fetchUserLevels())
 
 ReactDOM.render(
   <React.StrictMode>
