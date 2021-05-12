@@ -4,6 +4,9 @@ import actionTypes from "../actionTypes";
 const setSpoilerLevel = (seriesId, bookId) => {
   return async (dispatch) => {
     try {
+      const newLevel = { [`${seriesId}`]: bookId }
+      dispatch(actionCreators.updateUserLevels(newLevel));
+
       dispatch({type: actionTypes.FETCHING, isFetching: true});
 
       const data = {
@@ -24,17 +27,17 @@ const setSpoilerLevel = (seriesId, bookId) => {
         headers
       });
 
+      console.log('Fetching complete: setSpoilerLevel');
       dispatch({type: actionTypes.FETCHING, isFetching: false});
 
       if (response.status === 200) {
-        const responseBody = await response.json();
-
-        const newLevel = { [`${responseBody.seriesId}`]: responseBody.bookId }
-        dispatch(actionCreators.updateUserLevels(newLevel));
 
         return { success: true };
 
       } else if (response.error) {
+        
+      // TODO: Improve user alert for network errors. Their state might not be saved.
+
         console.error('Unexpected reponse error in setSpoilerLevel:', response.error);
         return { error: response.error };
       } else {
