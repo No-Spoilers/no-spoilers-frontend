@@ -85,8 +85,8 @@ const AddBookForm = (props) => {
   return (
       <div className="add-book-container">
         <form className="form-box" onSubmit={submitButtonHandler}>
-        <h1>{props.book?.name ? "Edit" : "Add"} Book</h1>
-          <label htmlFor="title"><b>Title</b></label>
+        <h1>{props.book?.name ? props.book.name : "Add Book"}</h1>
+          <label htmlFor="title"><b>{props.book?.name ? "Change Title" : "Title"}</b></label>
           <input 
             type="text"
             name="title"

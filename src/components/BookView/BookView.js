@@ -37,10 +37,14 @@ const BookView = (props) => {
   if (book.name) {
     bookView = (
       <div className="book-view">
-        <div className="book-title">{book.name}</div>
+        <div className="book-view-header-container">
+          <div className="book-title">{book.name}</div>
+          <button className="book-edit-button" onClick={toggleEditBook}>Edit</button>
+        </div>
+
         <div className="book-published-date">{dateFormat(book.pubDate)}</div>
         {description}
-        <button className="edit-button" onClick={toggleEditBook}>Edit</button>
+
       </div>
     );
   }

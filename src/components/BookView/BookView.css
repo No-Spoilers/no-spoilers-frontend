@@ -6,10 +6,24 @@
   background-color: wheat;
 }
 
-.book-view-container .book-title {
-  margin: 1rem 0;
+.book-view-header-container {
+  display: flex;
+  padding: 0.5rem;
+}
+
+.book-view-header-container .book-title {
+  flex: 1;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.book-view-header-container .book-edit-button {
+  background-color: rgb(248, 232, 203);
+  text-align: center;
+  padding: 0 0.7rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 7px;
 }
 
 .book-view-container .book-published-date {
@@ -22,8 +36,4 @@
   padding: 1rem;
   border: 1px solid black;
   background-color: antiquewhite;
-}
-
-.book-view-container .edit-button {
-  color: blue;
 }
