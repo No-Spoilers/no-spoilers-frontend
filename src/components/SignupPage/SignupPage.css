@@ -4,12 +4,16 @@
   border: 1px solid black;
 }
 
-.signup-form-box {
+.signup-container .tab-container {
+  display: flex;
+}
+
+.signup-container .form-box {
   padding: 1rem;
   background-color: lightskyblue;
 }
 
-.signup-login-tab {  
+.signup-container .signup-login-tab {  
   margin: 0;
   padding: 0;
   font: small-caps bold 2rem sans-serif;
@@ -20,7 +24,7 @@
   cursor: pointer;
 }
 
-.signup-signup-tab {
+.signup-container .signup-signup-tab {
   margin: 0;
   padding: 0;
   font: small-caps bold 2rem sans-serif;
@@ -28,4 +32,53 @@
   flex: 1;
   color: #444;
   background-color:lightskyblue;
+}
+
+.signup-container input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.signup-container .login-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.signup-container .cancel-button {
+  background-color: #858a85;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.signup-container .login-fail {
+  color: red;
+  text-align: center;
+  padding: 1rem;
+}
+
+.signup-container .buttonValidate:invalid {
+  background-color: pink;
+}
+
+.signup-container button:hover {
+  opacity: 0.8;
+}
+
+/* The "Forgot password" text */
+.signup-container span.psw {
+  float: right;
+  padding-top: 16px;
 }
