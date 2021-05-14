@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom"
+import sortByTimestamp from '../../lib/sortByTimestamp';
 import { reduxConnect } from '../../redux/tools';
 import AddBookForm from '../AddBookForm/AddBookForm';
 import SeriesEditForm from '../AddSeries/SeriesEditForm';
@@ -32,16 +33,6 @@ const SeriesView = (props) => {
 
   const toggleEditDetails = () => {
     setEditSeriesDetails(!editSeriesDetails);
-  }
-
-  const sortByTimestamp = (sortOrder) => {
-    // sortOrder: 1 for high to low, or -1 for low to high
-    return (a,b) => {
-      const el1 = new Date(a.pubDate)
-      const el2 = new Date(b.pubDate);
-
-      return sortOrder * (el2 - el1);
-    }
   }
 
   let books = null;
