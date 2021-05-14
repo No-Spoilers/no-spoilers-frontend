@@ -7,7 +7,8 @@ const initialState = {
   isFetching: false,
   seriesList: [],
   seriesDetails: {},
-  userSpoilerLevel: {}
+  userSpoilerLevel: {},
+  lookUp: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -62,19 +63,21 @@ const reducer = (state = initialState, action) => {
 
       const [series] = seriesEntries.filter(item => !item.bookId && !item.entryId);
 
-      const books = seriesEntries
+      const { books, bookLookUp } = seriesEntries
         .filter(item => item.bookId && !item.entryId)
         .reduce((acc, item) => {
-          acc[item.bookId] = item;
+          acc.books[item.bookId] = item;
+          acc.bookLookUp[item.bookId] = item.seriesId;
           return acc;
-        }, {});
+        }, {books:{}, bookLookUp:{}});
 
-      const entries = seriesEntries
+      const { entries, entryLookUp } = seriesEntries
         .filter(item => item.entryId)
         .reduce((acc, item) => {
-          acc[item.entryId] = item;
+          acc.entries[item.entryId] = item;
+          acc.entryLookUp[item.entryId] = item.seriesId;
           return acc;
-        }, {});
+        }, { entries: {}, entryLookUp: {} });
 
       const timeStamp = (new Date()).toISOString();
 
@@ -87,9 +90,16 @@ const reducer = (state = initialState, action) => {
         timeStamp
       };
 
+      const lookUp = {
+        ...state.lookUp,
+        ...bookLookUp,
+        ...entryLookUp
+      }
+      
       return {
         ...state,
-        seriesDetails
+        seriesDetails,
+        lookUp
       };
     }
 
@@ -110,6 +120,7 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_BOOK_DETAIL: {
       const bookData = action.bookData;
+      
       const seriesDetails = { ...state.seriesDetails };
       seriesDetails[bookData.seriesId] = {
         ...seriesDetails[bookData.seriesId]
@@ -119,9 +130,17 @@ const reducer = (state = initialState, action) => {
       };
       seriesDetails[bookData.seriesId].books[bookData.bookId] = bookData;
 
+      const lookUp = {
+        ...state.lookUp,
+        [`${bookData.bookId}`]: bookData.seriesId
+      };
+
       return {
         ...state,
-        seriesDetails
+        seriesDetails,
+        lookUp
+      };
+    }
       };
     }
 
