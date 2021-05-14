@@ -63,7 +63,7 @@
   width: 100%;
 }
 
-.signup-container .login-fail {
+.signup-container .signup-fail {
   color: red;
   text-align: center;
   padding: 1rem;

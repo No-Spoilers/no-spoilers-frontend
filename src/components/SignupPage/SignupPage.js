@@ -15,7 +15,7 @@ const SignupPage = (props) => {
     emailFieldClass: '',
     nameFieldClass: '',
     passwordFieldClass: '',
-    loginFail: null
+    signupFail: null
   });
   
   const validateForm = () => {
@@ -59,7 +59,7 @@ const SignupPage = (props) => {
         if (result.status !== 201) {
           setState({
             ...state, 
-            loginFail: responseBody,
+            signupFail: responseBody,
             fieldsDisabled: false
           })
         } else {
@@ -166,7 +166,7 @@ const SignupPage = (props) => {
           className="cancel-button"
         >Cancel</button>
 
-        {state.loginFail ? <div className="login-fail">Error: {state.loginFail}</div> : null}
+        {state.signupFail ? <div className="signup-fail">Error: {state.signupFail}</div> : null}
       </form>
     </div>
   )

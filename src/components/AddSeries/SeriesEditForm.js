@@ -133,8 +133,8 @@ const SeriesEditForm = (props) => {
         className="cancel-button"
       >Cancel</button>
 
-      {state.submitting ? <div className="login-fail">SENDING DATA</div> : null}
-      {state.submitFail ? <div className="login-fail">Error: {state.submitFail}</div> : null}
+      {state.submitting ? <div className="submit-fail">SENDING DATA</div> : null}
+      {state.submitFail ? <div className="submit-fail">Error: {state.submitFail}</div> : null}
     </form>
   )
 }
