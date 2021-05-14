@@ -99,7 +99,7 @@ const SignupPage = (props) => {
         <div className="signup-login-tab" onClick={() => history.push('/login')}>Login</div>
         <div className="signup-signup-tab">Signup</div>
       </div>
-      <form className="signup-form-box" onSubmit={loginButtonHandler}>
+      <form className="form-box" onSubmit={loginButtonHandler}>
         <label htmlFor="email"><b>Email</b></label>
         <input 
           name="email" 
