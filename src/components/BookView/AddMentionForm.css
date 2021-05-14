@@ -1,0 +1,33 @@
+.add-mention-form {
+  margin-top: 2rem;
+  border-top: 1px solid black;
+  padding-top: 1rem;
+}
+.add-mention-form input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.add-mention-form .submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.add-mention-form .cancel-button {
+  background-color: #858a85;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}

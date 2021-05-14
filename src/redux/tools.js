@@ -15,9 +15,10 @@ const matchDispatchToProps = dispatch => {
     getSeriesDetail: (seriesId) => dispatch(actionCreators.fetchSeriesDetail(seriesId)),
     postNewBook: (bookData) => dispatch(actionCreators.postNewBook(bookData)),
     updateBook: (bookData) => dispatch(actionCreators.updateBook(bookData)),
-    postNewSeries: (seriesData) => dispatch(actionCreators.postNewSeriesk(seriesData)),
+    postNewSeries: (seriesData) => dispatch(actionCreators.postNewSeries(seriesData)),
     updateSeries: (seriesData) => dispatch(actionCreators.updateSeries(seriesData)),
-    setSpoilerLevel: (seriesId, bookId) => dispatch(actionCreators.setSpoilerLevel(seriesId, bookId))
+    setSpoilerLevel: (seriesId, bookId) => dispatch(actionCreators.setSpoilerLevel(seriesId, bookId)),
+    postNewEntry: (entryData) => dispatch(actionCreators.postNewEntry(entryData))
   }
 }
 

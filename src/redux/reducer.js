@@ -141,7 +141,29 @@ const reducer = (state = initialState, action) => {
         lookUp
       };
     }
+
+    case actionTypes.UPDATE_ENTRY_DATA: {
+      const { entryData } = action;
+
+      const seriesDetails = { ...state.seriesDetails };
+      seriesDetails[entryData.seriesId] = {
+        ...seriesDetails[entryData.seriesId]
       };
+      seriesDetails[entryData.seriesId].entries = {
+        ...seriesDetails[entryData.seriesId].entries
+      };
+      seriesDetails[entryData.seriesId].entries[entryData.entryId] = entryData;
+
+      const lookUp = {
+        ...state.lookUp,
+        [`${entryData.entryId}`]: entryData.seriesId
+      };
+
+      return {
+        ...state,
+        seriesDetails,
+        lookUp
+      }
     }
 
     case actionTypes.FETCHING: {

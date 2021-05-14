@@ -4,6 +4,7 @@ import { reduxConnect } from "../../redux/tools";
 import dateFormat from '../../lib/dateFormat';
 import AddBookForm from "../AddBookForm/AddBookForm";
 import './BookView.css';
+import MentionList from "./MentionList";
 
 
 const BookView = (props) => {
@@ -59,6 +60,8 @@ const BookView = (props) => {
         <div className='breadcrumb-text'>{breadcrumb}</div>
       </Link>
       {editBook ? <AddBookForm book={book} cancel={toggleEditBook} /> : bookView}
+
+      <MentionList entries={entries} />
     </div>
   ) 
 

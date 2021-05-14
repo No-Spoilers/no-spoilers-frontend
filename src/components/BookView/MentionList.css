@@ -1,0 +1,15 @@
+.mention-list {
+  margin-top: 1rem;
+}
+
+.mention-list .mention-list-header {
+  margin-bottom: .5rem;
+}
+
+.mention-list .add-mention-button {
+ margin: 1rem 0;
+}
+
+.mention-list .entry-item:hover {
+  background-color:burlywood;
+}
