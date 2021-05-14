@@ -39,10 +39,6 @@
   width: 100%;
 }
 
-.series-view-container .book-line-item:hover {
-  background-color:burlywood;
-}
-
 .series-view-container .book-line-item input {
   width: 3rem;
   cursor: pointer;
