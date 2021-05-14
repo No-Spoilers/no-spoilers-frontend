@@ -7,20 +7,21 @@ import './BookView.css';
 
 
 const BookView = (props) => {
-  const seriesId = useParams().seriesId;
-  const contentId = useParams().contentId;
+  const bookId = useParams().contentId;
+  const seriesId = props.lookUp[bookId];
 
   const [editBook, setEditBook] = useState(false);
 
   const { seriesDetails, getSeriesDetail } = props;
   
-  const book = seriesDetails?.[seriesId]?.books?.[contentId] || {};
+  const book = seriesDetails?.[seriesId]?.books?.[bookId] || {};
+  const entries = seriesDetails?.[seriesId]?.entries || {};
 
   useState(() => {
     if (!book.name && !props.fetching) {
-      getSeriesDetail(seriesId);
+      getSeriesDetail(bookId);
     }
-  }, [book, getSeriesDetail, seriesId]);
+  }, [book, getSeriesDetail, bookId]);
 
   const toggleEditBook = () => {
     setEditBook(!editBook);

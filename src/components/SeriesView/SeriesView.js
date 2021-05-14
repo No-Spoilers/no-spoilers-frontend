@@ -7,7 +7,7 @@ import BookLineItem from './BookLineItem';
 import './SeriesView.css';
 
 const SeriesView = (props) => {
-  const seriesId = useParams().seriesId;
+  const seriesId = useParams().contentId;
   const { getSeriesDetail } = props;
   const thisSeries = props.seriesDetails[seriesId] || {};
   const { timeStamp } = thisSeries;

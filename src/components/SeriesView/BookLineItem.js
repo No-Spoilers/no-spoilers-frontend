@@ -24,7 +24,7 @@ const BookLineItem = (props) => {
         />
       </label>
       <div className="checkbox-label">
-        <Link to={`/${book.seriesId}/${book.bookId}`} className="book-link">
+        <Link to={`/${book.bookId}`} className="book-link">
           <span className='book-title'>{book.name}</span>
           <span>&nbsp;-&nbsp;</span>
           <span className='book-date'>{dateFormat(book.pubDate)}</span>

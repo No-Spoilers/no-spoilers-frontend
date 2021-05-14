@@ -6,10 +6,9 @@ import LoginPage from '../LoginPage/LoginPage';
 import SeriesList from '../SeriesList/SeriesList';
 import SignupPage from '../SignupPage/SignupPage';
 import AddSeries from '../AddSeries/AddSeries';
-import SeriesView from '../SeriesView/SeriesView';
-import './ContentFrame.css';
 import HomePage from '../HomePage/HomePage';
-import BookView from '../BookView/BookView';
+import ContentView from './ContentView';
+import './ContentFrame.css';
 
 const ContentFrame = (props) => {
   return (
@@ -39,12 +38,8 @@ const ContentFrame = (props) => {
           <h1>Search Frame Here</h1>
         </Route>
 
-        <Route path="/:seriesId/:contentId">
-          <BookView />
-        </Route>
-
-        <Route path="/:seriesId">
-          <SeriesView />
+        <Route path="/:contentId">
+          <ContentView />
         </Route>
 
         <Route path="/">
