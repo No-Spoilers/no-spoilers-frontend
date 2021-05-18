@@ -9,7 +9,7 @@ import './SeriesView.css';
 
 const SeriesView = (props) => {
   const seriesId = useParams().contentId;
-  const { getSeriesDetail } = props;
+  const { seriesDetails, getSeriesDetail } = props;
   const thisSeries = props.seriesDetails[seriesId] || {};
   const { timeStamp } = thisSeries;
 
@@ -36,8 +36,8 @@ const SeriesView = (props) => {
   }
 
   let books = null;
-
   const sortOrder = -1; // TODO: make UI toggle for sortOrder
+  const seriesName = seriesDetails?.[seriesId]?.name || '';
 
   if (thisSeries?.books) {
     books = Object.values(thisSeries.books)
@@ -49,6 +49,7 @@ const SeriesView = (props) => {
           key={index}
           handleCheckBox={handleCheckBox}
           spoilDate={spoilDate}
+          seriesName={seriesName}
         />
       ));
   }

@@ -5,6 +5,7 @@ import dateFormat from '../../lib/dateFormat';
 import AddBookForm from "../AddBookForm/AddBookForm";
 import './BookView.css';
 import MentionList from "./MentionList";
+import urlText from "../../lib/urlText";
 
 
 const BookView = (props) => {
@@ -56,12 +57,12 @@ const BookView = (props) => {
 
   return (
     <div className="book-view-container">
-      <Link to={`/${seriesId}`}>
+      <Link to={`/${seriesId}/${urlText(seriesName)}`}>
         <div className='breadcrumb-text'>{breadcrumb}</div>
       </Link>
       {editBook ? <AddBookForm book={book} cancel={toggleEditBook} /> : bookView}
 
-      <MentionList entries={entries} />
+      <MentionList entries={entries} seriesName={seriesName} />
     </div>
   ) 
 

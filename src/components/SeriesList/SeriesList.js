@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import urlText from '../../lib/urlText';
 import { reduxConnect } from '../../redux/tools';
 import './SeriesList.css';
 
@@ -19,7 +20,7 @@ const SeriesList = (props) => {
         </div>
         {props.seriesList.map(item => (
           <div key={item.seriesId} className="series-name">
-            <Link to={`/${item.seriesId}`}><div>{item.name}</div></Link>
+            <Link to={`/${item.seriesId}/${urlText(item.name)}`}><div>{item.name}</div></Link>
           </div>
         ))}
       </div>

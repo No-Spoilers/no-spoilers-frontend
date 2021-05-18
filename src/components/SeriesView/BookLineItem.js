@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom"
 import dateFormat from "../../lib/dateFormat";
+import urlText from "../../lib/urlText";
 import './BookLineItem.css';
 
 const BookLineItem = (props) => {
-  const { book, index, spoilDate } = props;
+  const { seriesName, book, index, spoilDate } = props;
 
   const earlierThanSpoilDate = (bookDate) => {
     const a = new Date(bookDate);
@@ -24,7 +25,7 @@ const BookLineItem = (props) => {
         />
       </label>
       <div className="checkbox-label">
-        <Link to={`/${book.bookId}`} className="book-link">
+        <Link to={`/${book.bookId}/${urlText(book.name, seriesName)}`} className="book-link">
           <span className='book-title'>{book.name}</span>
           <span>&nbsp;-&nbsp;</span>
           <span className='book-date'>{dateFormat(book.pubDate)}</span>

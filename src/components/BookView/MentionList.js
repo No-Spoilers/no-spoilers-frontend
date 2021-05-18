@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import sortByTimestamp from "../../lib/sortByTimestamp";
+import urlText from "../../lib/urlText";
 import { reduxConnect } from "../../redux/tools";
 import AddMentionForm from "./AddMentionForm";
 import './MentionList.css';
@@ -22,6 +23,8 @@ const MentionList = (props) => {
     .sort(sortByTimestamp(sortDirection, 'createdAt'))
     .map(entry => (
       <div key={entry.name} className={entryClass(entry)}>
+        <Link to={`/${entry.entryId}/${urlText(entry.name, props.seriesName)}`}>{entry.name}</Link>
+      </div>
     ));
 
   function toggleAddMention() {
