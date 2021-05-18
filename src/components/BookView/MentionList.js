@@ -5,6 +5,13 @@ import { reduxConnect } from "../../redux/tools";
 import AddMentionForm from "./AddMentionForm";
 import './MentionList.css';
 
+const entryClass = (entry) => {
+  if (!entry.text || entry.text.length < 1) {
+    return 'new-entry-item';
+  }
+  return 'entry-item';
+}
+
 const MentionList = (props) => {
   const { entries } = props;
   const [addMentionOpen, setAddMentionOpen] = useState(false);
@@ -14,7 +21,7 @@ const MentionList = (props) => {
   const entryItems = Object.values(entries)
     .sort(sortByTimestamp(sortDirection, 'createdAt'))
     .map(entry => (
-      <div key={entry.name} className="entry-item"><Link to={`/${entry.entryId}`}>{entry.name}</Link></div>
+      <div key={entry.name} className={entryClass(entry)}>
     ));
 
   function toggleAddMention() {
