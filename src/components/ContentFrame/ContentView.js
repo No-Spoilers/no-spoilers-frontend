@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from "react-router-dom"
 import BookView from '../BookView/BookView';
+import EntryView from '../EntryView/EntryView';
 import SeriesView from '../SeriesView/SeriesView';
 
 // import './ContentView.css';
@@ -18,7 +19,7 @@ const ContentView = (props) => {
       return <BookView />
 
     case 'e':
-      return null;
+      return <EntryView />;
   
     default:
       return null;
