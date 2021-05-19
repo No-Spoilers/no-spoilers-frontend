@@ -18,7 +18,8 @@ const matchDispatchToProps = dispatch => {
     postNewSeries: (seriesData) => dispatch(actionCreators.postNewSeries(seriesData)),
     updateSeries: (seriesData) => dispatch(actionCreators.updateSeries(seriesData)),
     setSpoilerLevel: (seriesId, bookId) => dispatch(actionCreators.setSpoilerLevel(seriesId, bookId)),
-    postNewEntry: (entryData) => dispatch(actionCreators.postNewEntry(entryData))
+    postNewEntry: (entryData) => dispatch(actionCreators.postNewEntry(entryData)),
+    updateEntry: (entryData) => dispatch(actionCreators.updateEntry(entryData))
   }
 }
 

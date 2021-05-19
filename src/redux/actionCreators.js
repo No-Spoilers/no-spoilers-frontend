@@ -8,6 +8,7 @@ import updateSeries from "./async/updateSeries";
 import setSpoilerLevel from "./async/setSpoilerLevel";
 import fetchUserLevels from "./async/fetchUserLevels";
 import postNewEntry from "./async/postNewEntry";
+import updateEntry from "./async/updateEntry";
 
 const actionCreators = {
   logoutUser: () => ({type: actionTypes.LOGOUT_USER}),
@@ -64,7 +65,9 @@ const actionCreators = {
 
   postNewEntry,
 
-  updateEntries: (entryData) => ({
+  updateEntry,
+
+  updateEntrySuccess: (entryData) => ({
     type: actionTypes.UPDATE_ENTRY_DATA,
     entryData
   })

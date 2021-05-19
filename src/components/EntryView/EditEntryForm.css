@@ -1,0 +1,47 @@
+.entry-edit-form-container {
+  margin-top: 2rem;
+}
+
+.entry-edit-form h1 {
+  margin: 1rem 0;
+}
+
+.entry-edit-form input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.entry-edit-form-container .add-entry-text {
+  width: 100%;
+  height: 10rem;
+  padding: 12px 20px;
+  margin: 12px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.entry-edit-form .submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.entry-edit-form .cancel-button {
+  background-color: #858a85;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}

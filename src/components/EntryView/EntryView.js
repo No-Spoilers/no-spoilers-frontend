@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom"
 import sortByTimestamp from "../../lib/sortByTimestamp";
 import urlText from "../../lib/urlText";
 import { reduxConnect } from "../../redux/tools";
+import EditEntryForm from "./EditEntryForm";
+import SpoilerLevelDropDown from "./SpoilerLevelDropDown";
 import "./EntryView.css";
 
 const bookOrder = (bookList) => {
@@ -35,10 +37,10 @@ const earliestMentionId = (text = {}, orderedBookList, index = 0) => {
 
 const EntryView = (props) => {
   const entryId = useParams().contentId;
-  const seriesId = props.lookUp[entryId];
+  const [ editOpen, setEditOpen ] = useState();
 
   const { seriesDetails, getSeriesDetail } = props;
-
+  const seriesId = props.lookUp[entryId];
   const entry = seriesDetails?.[seriesId]?.entries?.[entryId] || {};
 
   useState(() => {
@@ -47,8 +49,10 @@ const EntryView = (props) => {
     }
   }, [entry, getSeriesDetail, entryId]);
 
-  const spoilerChangeHandler = (event) => {
-    props.setSpoilerLevel(seriesId, event.target.value);
+
+
+  const toggleEditEntry = () => {
+    setEditOpen(!editOpen);
   }
 
   const seriesName = seriesDetails?.[seriesId]?.name || '';
@@ -57,45 +61,57 @@ const EntryView = (props) => {
   const spolierLevelBookId = props.userSpoilerLevel[seriesId] || '';
   const bookList = seriesDetails?.[seriesId]?.books || {};
 
-  const spoilerChoices = Object.values(bookList).sort(sortByTimestamp(-1)).map(book => (
-    <option value={book.bookId} key={book.bookId}>{book.name}</option>
-  ));
 
-  spoilerChoices.unshift(<option value="" key="1">-- No Spoilers --</option>);
-
-  const spoilerLevelDropdown = (
-    <select name="books" id="books" className="spoiler-level-book" value={spolierLevelBookId || "0"} onChange={spoilerChangeHandler}>
-      {spoilerChoices}
-    </select>
-  )
+  const spoilerLevelDropdown = <SpoilerLevelDropDown />;
 
   let spoilerLevelText = <label htmlFor="spolierLevelBook">Set spoiler level: {spoilerLevelDropdown}</label>
   let entryViewHtml;
 
   if (spolierLevelBookId !== '') {
+
     spoilerLevelText = <label htmlFor="spolierLevelBook">This article potentially contains spoilers through {spoilerLevelDropdown}</label>
-    
+
     const entryText = mostRecentEntry(entry.text, spolierLevelBookId, bookOrder(bookList));
     entryViewHtml = entryText ? entryText : <p>{entry.name} is mentioned in {seriesName}.</p>;
+
   } else {
+
     const firstMention = bookList[earliestMentionId(entry.text, bookOrder(bookList))]?.name;
     entryViewHtml = firstMention ? <p>{entry.name} is first mentioned in {firstMention}.</p> : <p>{entry.name} has no entries yet.</p>;
+
   }
+
+  let articleOrEditForm;
+
+  if (editOpen) {
+    articleOrEditForm = <EditEntryForm cancel={toggleEditEntry} />
+  } else {
+    articleOrEditForm = (
+      <div>
+        <div className='entry-header-container'>
+          <div className='breadcrumb-text'>
+            <Link to={`/${seriesId}/${urlText(seriesName)}`}>{breadcrumb}</Link>
+          </div>
+          <div className="entry-edit-button" onClick={toggleEditEntry}>Edit</div>
+        </div>
+        
+        <div className="spoiler-level-warning">
+          <form>
+            {spoilerLevelText}
+          </form>
+        </div>
+
+        <div className="entry-html">
+          {entryViewHtml}
+        </div>
+      </div>
+    )
+  } 
 
   return (
     <div className="entry-view-container">
-      <Link to={`/${seriesId}/${urlText(seriesName)}`}>
-        <div className='breadcrumb-text'>{breadcrumb}</div>
-      </Link>
-      <div className="spoiler-level-warning">
-        <form>
-          {spoilerLevelText}
-        </form>
-      </div>
 
-      <div className="entry-html">
-        {entryViewHtml}
-      </div>
+      {articleOrEditForm}
     </div>
   )
 }
