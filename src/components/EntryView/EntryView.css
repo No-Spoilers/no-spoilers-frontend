@@ -30,3 +30,20 @@
   font-weight: bold;
   font-style: italic;
 }
+
+.entry-view-container .entry-html {
+  margin: 1rem;
+}
+
+.entry-view-container .entry-html h1 {
+  margin: 1rem 0;
+}
+
+.entry-view-container .entry-html p {
+  margin: 1rem 0;
+}
+
+.entry-view-container .entry-html a {
+  text-decoration: underline;
+  color: blue;
+}

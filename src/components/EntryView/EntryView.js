@@ -1,10 +1,13 @@
 import { useState } from "react";
+import marked from 'marked';
+import DOMPurify from 'dompurify';
 import { Link, useParams } from "react-router-dom"
 import sortByTimestamp from "../../lib/sortByTimestamp";
 import urlText from "../../lib/urlText";
 import { reduxConnect } from "../../redux/tools";
 import EditEntryForm from "./EditEntryForm";
 import SpoilerLevelDropDown from "./SpoilerLevelDropDown";
+
 import "./EntryView.css";
 
 const bookOrder = (bookList) => {
@@ -65,19 +68,19 @@ const EntryView = (props) => {
   const spoilerLevelDropdown = <SpoilerLevelDropDown />;
 
   let spoilerLevelText = <label htmlFor="spolierLevelBook">Set spoiler level: {spoilerLevelDropdown}</label>
-  let entryViewHtml;
+  let entryMarkdown;
 
   if (spolierLevelBookId !== '') {
 
     spoilerLevelText = <label htmlFor="spolierLevelBook">This article potentially contains spoilers through {spoilerLevelDropdown}</label>
 
     const entryText = mostRecentEntry(entry.text, spolierLevelBookId, bookOrder(bookList));
-    entryViewHtml = entryText ? entryText : <p>{entry.name} is mentioned in {seriesName}.</p>;
+    entryMarkdown = entryText ? entryText : `${entry.name} is mentioned in ${seriesName}.`;
 
   } else {
 
     const firstMention = bookList[earliestMentionId(entry.text, bookOrder(bookList))]?.name;
-    entryViewHtml = firstMention ? <p>{entry.name} is first mentioned in {firstMention}.</p> : <p>{entry.name} has no entries yet.</p>;
+    entryMarkdown = firstMention ? `${entry.name} is first mentioned in ${firstMention}.` : `${entry.name} has no entries yet.`;
 
   }
 
@@ -86,6 +89,8 @@ const EntryView = (props) => {
   if (editOpen) {
     articleOrEditForm = <EditEntryForm cancel={toggleEditEntry} />
   } else {
+    const innerHtml = DOMPurify.sanitize(marked(entryMarkdown));
+
     articleOrEditForm = (
       <div>
         <div className='entry-header-container'>
@@ -101,9 +106,10 @@ const EntryView = (props) => {
           </form>
         </div>
 
-        <div className="entry-html">
-          {entryViewHtml}
-        </div>
+        <div 
+          className="entry-html"
+          dangerouslySetInnerHTML={{__html: innerHtml}}
+        ></div>
       </div>
     )
   } 
